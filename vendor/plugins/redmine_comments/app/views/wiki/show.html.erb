@@ -54,11 +54,10 @@
 
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
-<% @comments = PageComment.find_all_by_page_id_and_version_id(@page.id, @page.content.version) %>
-
-<% if @comments.any? %>
+<% @page_comments_version = @page.page_comments.find_all_by_version_id(@page.content.version) %>
+<% unless @page_comments_version.empty? %>
     <h3>Comentários da página</h3>
-    <%= render :partial => "comments/comment", :collection => @comments %>
+    <%= render :partial => "comments/comment", :collection => @page_comments_version %>
 <% end %>
 
 <h3>Deixe um comentário</h3>

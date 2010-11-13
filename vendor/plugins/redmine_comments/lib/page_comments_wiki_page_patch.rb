@@ -3,8 +3,7 @@ module RedmineComments
         def self.included(base)
             base.class_eval do
                 unloadable 
-                has_many :page_comments
-                has_many :users, :through => :page_comments
+                has_many :page_comments, :class_name => 'PageComment'
             end
         end 
     end

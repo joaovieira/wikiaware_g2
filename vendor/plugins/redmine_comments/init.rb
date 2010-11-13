@@ -18,10 +18,8 @@ Dispatcher.to_prepare :redmine_comments do
   unless User.included_modules.include? RedmineComments::PageCommentsUserPatch
     User.send(:include, RedmineComments::PageCommentsUserPatch)
   end
-end 
-
-Dispatcher.to_prepare :redmine_comments do
-  unless User.included_modules.include? RedmineComments::PageCommentsWikiPagePatch
-    User.send(:include, RedmineComments::PageCommentsWikiPagePatch)
+  
+  unless WikiPage.included_modules.include? RedmineComments::PageCommentsWikiPagePatch
+    WikiPage.send(:include, RedmineComments::PageCommentsWikiPagePatch)
   end
 end 
