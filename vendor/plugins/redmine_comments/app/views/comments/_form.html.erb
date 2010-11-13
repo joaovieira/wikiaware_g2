@@ -1,0 +1,13 @@
+<% form_tag(:controller => 'comments', :action => 'create') do %>
+  <%= hidden_field_tag 'page_id', @page.id %>  
+  <%= hidden_field_tag 'page_version_id', @page.content.version %>
+
+  <div class="field">
+    <%= label_tag 'comment_text', 'Comentário' %><br/>
+    <%= text_area_tag 'comment_text', nil, :size=>"40x5" %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag 'Submeter' %>
+  </div>
+<% end %>
