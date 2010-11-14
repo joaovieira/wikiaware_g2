@@ -56,7 +56,7 @@
 
 <% @page_comments_version = @page.page_comments.find_all_by_version_id(@page.content.version) %>
 <% unless @page_comments_version.empty? %>
-    <h3>Comentários da página</h3>
+    <h3>Page comments</h3>
     <%= render :partial => "comments/comment", :collection => @page_comments_version %>
 <% end %>
 

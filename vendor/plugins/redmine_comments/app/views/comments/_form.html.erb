@@ -1,11 +1,11 @@
-<h3>Deixe um comentário</h3>
+<h3>Leave a comment</h3>
 
 <% form_for([@page, PageComment.new]) do |f| %>	
 	<div class="field">
-		<%= f.label :content, 'Comentário' %><br />
+		<%= f.label :content, 'Comment' %><br />
 		<%= f.text_area :content, :size => "40x5" %>
 	</div>
 	<div class="actions">
-		<%= f.submit 'Submeter' %>
+		<%= f.submit 'Submit' %>
 	</div>
 <% end %>

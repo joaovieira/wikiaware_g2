@@ -10,9 +10,9 @@ class PageCommentsController < ApplicationController
   	@comment.version_id = @page.content.version
   	
   	if @comment.save
-  	  flash[:notice] = "Comentário adicionado!"
+  	  flash[:notice] = "Comment was successfully submited."
   	else
-  	  flash[:error] = "Erro ao inserir comentário!"
+  	  flash[:error] = "Error submitting comment: empty content!"
   	end
   	
   	redirect_to :back
