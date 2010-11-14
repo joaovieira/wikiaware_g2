@@ -7,7 +7,7 @@ class PageCommentsController < ApplicationController
   	@comment = PageComment.new(params[:page_comment])
   	@comment.user = User.current
   	@comment.wiki_page = @page
-  	@comment[:version_id] = @page.content.version
+  	@comment.version_id = @page.content.version
   	
   	if @comment.save
   	  flash[:notice] = "Comentário adicionado!"
