@@ -1,0 +1,23 @@
+<%= stylesheet_link_tag("ratings", :plugin => "redmine_wikiaware") %>
+<% if not User.current.anonymous? %>    
+  <span id="menu_message"></span>
+  <% @page_id = @page.id unless @page_id %> 
+  <% if not PageRating.liked?(User.current, @page_id) then %>
+    <%= link_to_remote image_tag("thumbs-up.png", :plugin => "redmine_wikiaware", :border => 0), :url => { :controller => "ratings", :action => "like", :user_id => User.current, :page_id => @page_id } %> 
+  <% else %>
+    <%= image_tag("thumbs-up_green.png", :plugin => "redmine_wikiaware", :border => 0) %>
+  <% end %>  
+  <span id="like_ratings">
+    <%= PageRating.get_likes(@page_id) %>
+  </span> 
+  | 
+  <% if not PageRating.disliked?(User.current, @page_id) then %>
+    <%= link_to_remote image_tag("thumbs-down.png", :plugin => "redmine_wikiaware", :border => 0), :url => { :controller => "ratings", :action => "dislike", :user_id => User.current, :page_id => @page_id } %>
+    <% else %>
+    <%= image_tag("thumbs-down_red.png", :plugin => "redmine_wikiaware", :border => 0) %>
+  <% end %>  
+  <span id="dislike_ratings">
+    <%= PageRating.get_dislikes(@page_id) %>
+  </span>
+
+<% end %>

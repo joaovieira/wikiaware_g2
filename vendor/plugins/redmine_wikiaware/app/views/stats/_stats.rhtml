@@ -1,0 +1,26 @@
+<%= stylesheet_link_tag "stats", :plugin => "redmine_wikiaware" %>
+<%= javascript_include_tag "stats", :plugin => "redmine_wikiaware" %>
+<%= link_to_remote image_tag("button.png", :plugin => "redmine_wikiaware", :id => "statsbutton", :class => "closed", :onclick => "slide()"), :url => {:controller => :stats, :action => :update_stats, :page => @page.id} %>
+
+<div id="statsbox">
+
+	<ul id="listings">
+	<% ["E", "R", "C"].each do |act| %>
+	<li><%= link_to_remote act, {:url => {:controller => :stats, :action => :update_stats, :page => @page.id, :st_act => act}}, {:class => "_", :id => act, :onclick => "changeSelected('" + act + "')"} %></li>
+	<% end %>
+	</ul>
+	<br style="clear: both" />
+	
+	<table id="statstable" hidden="true">
+	<%= render :partial => "stats/statstable" %>
+	</table>
+	<br />
+
+	<!-- <ul>
+	<% ["+", "+R"].each do |crit| %>
+	<li><%= link_to_remote crit, :url => {:controller => :stats, :action => :update_stats, :page => @page.id, :st_crit => crit} %></li>
+	<% end %>
+	</ul> -->
+	<br style="clear: both" />
+	
+</div>

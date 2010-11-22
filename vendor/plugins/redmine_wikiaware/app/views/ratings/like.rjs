@@ -1,0 +1,6 @@
+page.replace_html :ratings, :partial => 'ratings/show'
+
+#page.visual_effect :highlight, :like_ratings, :duration => 1
+
+page.replace_html :menu_message, 'You liked this page'
+#page.visual_effect :highlight, :menu_message

@@ -1,0 +1,66 @@
+#statsbutton {
+	clear:both;
+	position:fixed;
+	border:0;
+	margin:0;
+	padding:0;
+	right:0px;
+	display:block;
+	width:32px;
+	height:32px;
+	padding:0;
+	margin:0 0 4px 0;
+}
+
+#statsbox {
+	border-style: none;
+	float: right;
+	width: 0%;
+	height: 140px;
+	background-color:#507AAA;
+	position: fixed;
+	/*z-index: 9;*/
+	padding: 0;
+	margin: 0;
+	right: 0px;
+}
+
+#statstable {
+	/*display: none;*/
+	color: white;
+	position: absolute;
+	padding-left: 32px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 75%;
+	text-align: left;
+}
+
+#statsbox ul {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+
+#statsbox li {
+	float: left;
+	list-style-type:none;
+	margin: 0px 2px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	white-space:nowrap;
+}
+
+#statsbox li a {
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	font-weight: bold;
+	margin: 0;
+	padding: 4px 10px 4px 10px;
+}
+
+#statsbox li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
+
+#statsbox li a:hover {background:#759FCF; color:#fff;}

@@ -1,0 +1,6 @@
+<div class="comment">
+	<%= link_to User.find(comment.user_id).login, '#' %>
+	commented (<%= time_ago_in_words(comment.created_at) %> ago): <br/>
+	<%= comment.content %><br/>
+	<br/>
+</div>
