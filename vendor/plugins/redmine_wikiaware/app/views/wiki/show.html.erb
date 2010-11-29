@@ -59,13 +59,17 @@
 
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
-<% @page_comments_version = @page.page_comments.find_all_by_version_id(@page.content.version) %>
-<% unless @page_comments_version.empty? %>
-    <h3>Page comments</h3>
-    <%= render :partial => "comments/comment", :collection => @page_comments_version %>
-<% end %>
+<%= link_to_function "Show/Hide Page Comments", visual_effect(:toggle_appear, "page_comments_section", :duration => 0.0) %>
 
-<%= render :partial => "comments/form" %>
+<div id="page_comments_section" style="display:none;">
+	<% @page_comments_version = @page.page_comments.find_all_by_version_id(@page.content.version) %>
+	<% unless @page_comments_version.empty? %>
+	    <h3>Page comments</h3>
+	    <%= render :partial => "comments/comment", :collection => @page_comments_version %>
+	<% end %>
+
+	<%= render :partial => "comments/form" %>
+</div>
 
 <%= link_to_attachments @page %>
 
