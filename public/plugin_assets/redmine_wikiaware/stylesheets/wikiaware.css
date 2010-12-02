@@ -10,3 +10,52 @@
 .empty {
 	color:#ccc;
 }
+
+.comments-header {
+	background-color:#ddd;
+	padding: 2px 10px;
+	font-size: 12px;
+}
+
+.comments-body {
+	background-color:#eee;
+	border-top: 1px dotted #aaa;
+}
+
+.comments {
+	border: 1px solid #ccc;
+}
+
+.comment-heading {
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	padding-left: 2px;
+	padding-bottom: 5px;
+}
+
+.new-comment-form, .comments-list {
+	padding: 10px;
+}
+
+.new-comment-form {
+	border-top: 1px dotted #aaa;
+}
+
+.field > textarea {
+	width: 99%;
+	min-width: 600px;
+	padding-left: 1px;
+}
+
+.comment {
+	border-top: 1px dotted #aaa;
+	padding: 5px 1px;
+}
+
+.comment-author {
+	float: left;
+}
+.comment-actions {
+	float: right;
+}

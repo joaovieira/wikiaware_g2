@@ -59,19 +59,29 @@
 
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
-<%= link_to_function("Expand Comments", nil, :id => "page_comments_header") do |page|
-    page.visual_effect :toggle_blind, "page_comments_section"
-    page[:page_comments_header].replace_html "Collapse Comments"
-end %>
+<div class="comments" id="page-comments">
+<div class="comments-header" id="page-comments-header">
+	<%= link_to_function("[+] View Page Comments", nil, :id => "toggle-link") do |page|
+		page.visual_effect :toggle_blind, 'page-comments-body', :duration => 0.3
+		page << "this.innerHTML = (this.innerHTML == '[+] View Page Comments' ? '[-] Hide Page Comments' : '[+] View Page Comments')"
+	end %>
+</div>
 
-<div id="page_comments_section"> <!--style="display:none;">-->
+<div class="comments-body" id="page-comments-body" style="display:none;">
+	<div class="comments-list">
 	<% @page_comments_version = @page.page_comments.find_all_by_version_id(@page.content.version) %>
 	<% unless @page_comments_version.empty? %>
-	    <h3>Page comments</h3>
-	    <%= render :partial => "comments/comment", :collection => @page_comments_version %>
+		<div class="comment-heading">
+			Showing <%= pluralize(@page_comments_version.count, "Comment") %>
+		</div>
+	    <%= render :partial => "comments/comment", :collection => @page_comments_version, :locals => {:page => @page} %>
 	<% end %>
+	</div>
 
-	<%= render :partial => "comments/form" %>
+	<div class="new-comment-form">
+		<%= render :partial => "comments/form" %>
+	</div>
+</div>
 </div>
 
 <%= link_to_attachments @page %>

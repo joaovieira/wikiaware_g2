@@ -1,10 +1,8 @@
-<h3>Leave a comment</h3>
+<div class="comment-heading">Add New Comment</div>
 
 <% form_for([@page, PageComment.new]) do |f| %>	
 	<div class="field">
-		<%= f.label :content_lbl, 'Comment' %><br />
-		<%= hinted_text_area_tag :content_txt, nil, "Type your text here", :size => "40x5" %>
-		
+		<%= hinted_text_area_tag :content_text, nil, "Type your comment here.", :rows => 6 %>
 	</div>
 	<div class="actions">
 		<%= f.submit 'Submit' %>
