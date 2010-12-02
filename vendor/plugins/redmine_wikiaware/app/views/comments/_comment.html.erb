@@ -7,7 +7,7 @@
 	<% if !User.current.not_has_permission? @page or User.current.admin %>
 	<% if User.current.can_edit? @page or User.current == comment.user %>
 		<div class="comment-actions">
-			<%= link_to_remote 'Delete', {:url => {:controller => 'page_comments', :action => 'destroy', :id => comment}}, :method => 'delete', :class => 'icon icon-del' %>
+			<%= link_to 'Delete', {:controller => 'page_comments', :action => 'destroy', :id => comment}, :confirm => 'Are you sure?', :class => 'icon icon-del' %>
 		</div>
 	<% end %>
 	<% end %>
