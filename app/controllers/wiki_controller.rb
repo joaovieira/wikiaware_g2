@@ -75,7 +75,7 @@ class WikiController < ApplicationController
       # To prevent StaleObjectError exception when reverting to a previous version
       @content.version = @page.content.version
     else
-      if !@page.new_record? && @content.text == params[:content][:text]
+      if !@page.new_record? && @content.text == params[:content][:text] && @content.commentable == params[:content][:commentable]
         attachments = Attachment.attach_files(@page, params[:attachments])
         render_attachment_warning_if_needed(@page)
         # don't save if text wasn't changed
@@ -85,6 +85,11 @@ class WikiController < ApplicationController
       #@content.text = params[:content][:text]
       #@content.comments = params[:content][:comments]
       @content.attributes = params[:content]
+      
+      if !@content.was_ever_commentable?
+      	@content.was_ever_commentable = @content.commentable
+      end
+
       @content.author = User.current
       # if page is new @page.save will also save content, but not if page isn't a new record
       if (@page.new_record? ? @page.save : @content.save)

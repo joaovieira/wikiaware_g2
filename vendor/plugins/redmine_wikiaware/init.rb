@@ -15,12 +15,20 @@ Redmine::Plugin.register :redmine_wikiaware do
   menu :application_menu, :posts, {:controller=>'posts', :action=>'index'}, :caption=>'Microblogging'
 end
 
-Dispatcher.to_prepare :redmine_comments do
+Dispatcher.to_prepare :redmine_wikiaware do
   unless User.included_modules.include? WikiawarePatch::User
     User.send(:include, WikiawarePatch::User)
   end
 
   unless WikiPage.included_modules.include? WikiawarePatch::WikiPage
     WikiPage.send(:include, WikiawarePatch::WikiPage)
+  end
+
+  unless WikiContent.included_modules.include? WikiawarePatch::WikiContent
+    WikiContent.send(:include, WikiawarePatch::WikiContent)
+  end
+
+  unless WikiHelper.included_modules.include? WikiawarePatch::WikiHelper
+    WikiHelper.send(:include, WikiawarePatch::WikiHelper)
   end
 end

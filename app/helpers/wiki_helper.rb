@@ -66,4 +66,5 @@ module WikiHelper
     end
     simple_format_without_paragraph(words.join(' '))
   end
+
 end

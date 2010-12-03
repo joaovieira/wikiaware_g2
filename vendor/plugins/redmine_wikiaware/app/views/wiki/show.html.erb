@@ -1,5 +1,7 @@
 <div class="contextual">
 
+<%= stylesheet_link_tag("comments", :plugin => "redmine_wikiaware") %>
+
 <span id="ratings">
 <%= render :partial => 'ratings/show' %> 
 </span>
@@ -59,6 +61,7 @@
 
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
+<% if @page.content.was_ever_commentable? %>
 <div class="comments" id="page-comments">
 <div class="comments-header" id="page-comments-header">
 	<%= link_to_function("[+] View Page Comments", nil, :id => "toggle-link") do |page|
@@ -70,19 +73,22 @@
 <div class="comments-body" id="page-comments-body" style="display:none;">
 	<div class="comments-list">
 	<% @page_comments_version = @page.page_comments.find_all_by_version_id(@page.content.version) %>
-	<% unless @page_comments_version.empty? %>
 		<div class="comment-heading">
 			Showing <%= pluralize(@page_comments_version.count, "Comment") %>
 		</div>
-	    <%= render :partial => "comments/comment", :collection => @page_comments_version, :locals => {:page => @page} %>
-	<% end %>
+		<% unless @page_comments_version.empty? %>
+	    		<%= render :partial => "comments/comment", :collection => @page_comments_version, :locals => {:page => @page} %>
+		<% end %>
 	</div>
 
-	<div class="new-comment-form">
-		<%= render :partial => "comments/form" %>
-	</div>
+	<% if @page.content.is_commentable? %>
+		<div class="new-comment-form">
+			<%= render :partial => "comments/form" %>
+		</div>
+	<% end %>
 </div>
 </div>
+<% end %>
 
 <%= link_to_attachments @page %>
 

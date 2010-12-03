@@ -22,8 +22,36 @@ module WikiawarePatch
 		    unloadable 
 		    has_many :page_comments, :class_name => 'PageComment'
 		    has_many :page_ratings
-        has_many :users, :through => :page_ratings
-        has_many :sections, :class_name => 'WikiSection', :foreign_key => 'page_id'
+        	    has_many :users, :through => :page_ratings
+        	    has_many :sections, :class_name => 'WikiSection', :foreign_key => 'page_id'
+		  end
+		end
+	end
+
+	module WikiContent
+		def self.included(base)
+		  base.class_eval do
+		    unloadable 
+		    def is_commentable?
+		    	return commentable
+		    end
+
+		    def was_ever_commentable?
+			return was_ever_commentable
+		    end
+ 		  end
+		end
+	end
+
+	module WikiHelper
+		def self.included(base)
+		  base.class_eval do
+		    unloadable
+		    def hinted_text_area_tag(name, value = nil, hint = "Click and enter text", options={})
+    			value = value.nil? ? hint : value
+    			options[:class] = 'empty'
+    			text_area_tag name, value, {:onclick => "if($(this).value == '#{hint}'){$(this).value = ''; $(this).className='';}", :onblur => "if($(this).value == ''){$(this).value = '#{hint}'; $(this).className='empty';}" }.update(options.stringify_keys)
+  		    end
 		  end
 		end
 	end
