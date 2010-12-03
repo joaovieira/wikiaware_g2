@@ -4,7 +4,7 @@ class PageCommentsController < ApplicationController
 
   def create
   	@page = WikiPage.find(params[:wiki_page_id])
-  	@comment = PageComment.new(:content => params[:content_text], :version_id => @page.content.version)
+  	@comment = PageComment.new(:content => params[:content_text], :version_created => @page.content.version)
   	@comment.user = User.current
   	@comment.wiki_page = @page
   	
@@ -19,7 +19,8 @@ class PageCommentsController < ApplicationController
   
   def destroy
     @comment = PageComment.find(params[:id])
-    if @comment.destroy
+    @comment.version_deleted = @comment.wiki_page.content.version
+    if @comment.save
   	  flash[:notice] = "Comment deleted."
   	else
   	  flash[:error] = "Error deleting comment!"

@@ -24,6 +24,10 @@ Dispatcher.to_prepare :redmine_wikiaware do
   unless WikiPage.included_modules.include? WikiawarePatch::WikiPage
     WikiPage.send(:include, WikiawarePatch::WikiPage)
   end
+  
+  unless WikiContent.included_modules.include? WikiawarePatch::WikiContent
+      WikiContent.send(:include, WikiawarePatch::WikiContent)
+    end
 
   unless WikiHelper.included_modules.include? WikiawarePatch::WikiHelper
     WikiHelper.send(:include, WikiawarePatch::WikiHelper)

@@ -7,11 +7,13 @@ module WikiControllerPatch
 	base.class_eval do
 		unloadable
 		alias_method_chain :index, :adicionar_navegacao
+		alias_method_chain :edit, :actualiza_commentable
 	end
   end
   
   module ClassMethods
   end
+  
   module InstanceMethods
 		def index_with_adicionar_navegacao
 		
@@ -64,8 +66,50 @@ module WikiControllerPatch
     render :action => 'show'
 
 		   	
-		end   
-    
+		end
+		
+  	def edit_with_actualiza_commentable
+  	  @page = @wiki.find_or_new_page(params[:page])    
+      return render_403 unless editable?
+      @page.content = WikiContent.new(:page => @page) if @page.new_record?
+
+      @content = @page.content_for_version(params[:version])
+      @content.text = initial_page_content(@page) if @content.text.blank?
+      # don't keep previous comment
+      @content.comments = nil
+      if request.get?
+        # To prevent StaleObjectError exception when reverting to a previous version
+        @content.version = @page.content.version
+      else
+        if !@page.new_record? && @content.text == params[:content][:text] && @content.commentable == params[:content][:commentable] ############
+          attachments = Attachment.attach_files(@page, params[:attachments])
+          render_attachment_warning_if_needed(@page)
+          # don't save if text wasn't changed
+          redirect_to :action => 'index', :id => @project, :page => @page.title
+          return
+        end
+        #@content.text = params[:content][:text]
+        #@content.comments = params[:content][:comments]
+        @content.attributes = params[:content]
+        
+        if !@content.was_ever_commentable?
+          @content.was_ever_commentable = @content.commentable
+        end
+
+        @content.author = User.current
+        # if page is new @page.save will also save content, but not if page isn't a new record
+        if (@page.new_record? ? @page.save : @content.save)
+          attachments = Attachment.attach_files(@page, params[:attachments])
+          render_attachment_warning_if_needed(@page)
+          call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
+          redirect_to :action => 'index', :id => @project, :page => @page.title
+        end
+      end
+    rescue ActiveRecord::StaleObjectError
+      # Optimistic locking exception
+      flash[:error] = l(:notice_locking_conflict)
+    end
+  	   
   end
 end
 

@@ -1,0 +1,30 @@
+<%= stylesheet_link_tag("comments", :plugin => "redmine_wikiaware") %>
+
+<% if @page.content.was_ever_commentable? %>
+<div class="comments" id="page-comments">
+	<div class="comments-header" id="page-comments-header">
+		<%= link_to_function("[+] View Page Comments", nil, :id => "toggle-link") do |page|
+			page.visual_effect :toggle_blind, 'page-comments-body', :duration => 0.3
+			page << "this.innerHTML = (this.innerHTML == '[+] View Page Comments' ? '[-] Hide Page Comments' : '[+] View Page Comments')"
+		end %>
+	</div>
+
+	<div class="comments-body" id="page-comments-body" style="display:none;">
+		<div class="comments-list">
+			<% @page_comments_version = @page.page_comments.find_all_from_version(@content.version, @page.content.version) %>
+			<div class="comment-heading">
+				Showing <%= pluralize(@page_comments_version.count, "Comment") %>
+			</div>
+			<% unless @page_comments_version.empty? %>
+		    	<%= render :partial => "comments/comment", :collection => @page_comments_version, :locals => {:page => @page} %>
+			<% end %>
+		</div>
+
+		<% if @page.content.version == @content.version && @page.content.is_commentable? %>
+			<div class="new-comment-form">
+				<%= render :partial => "comments/form" %>
+			</div>
+		<% end %>
+	</div>
+</div>
+<% end %>
