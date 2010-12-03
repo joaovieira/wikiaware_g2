@@ -1,0 +1,6 @@
+page.replace_html :ratings, :partial => 'ratings/show'
+
+#page.visual_effect :highlight, :dislike_ratings, :duration => 1 #, :startcolor => "\'#fff6a6\'", :endcolor => "\'#eeeeee\'"
+
+page.replace_html :menu_message, 'You disliked this page'
+#page.visual_effect :highlight, :menu_message

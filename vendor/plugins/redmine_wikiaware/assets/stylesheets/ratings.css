@@ -5,3 +5,9 @@
 #dislike_ratings {
   color: red;
 }
+
+.wikiaware_section_rating {
+  font-size: 0.8em;
+  position: absolute;
+  right: 0px;
+}

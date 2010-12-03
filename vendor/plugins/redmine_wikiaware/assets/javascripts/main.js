@@ -1,4 +1,7 @@
-var linksVisible= true;
+
+var becosVisible=false;
+var linksVisible=false;
+var ruasVisible=false;
 var latestId = 0;
 var initializer=2;
 function setCookie(NameOfCookie, value, expiredays)
@@ -63,18 +66,70 @@ function expandLinks()
 {
         setCookie('linksExpanded','0',21,'','','');
         linksVisible = true;
-        $("linksArea").hide();
+        $("linksArea").show();
 }
 function collapseLinks()
 {
         setCookie('linksExpanded','1',21,'','','');
         linksVisible = false;
-        $("linksArea").show();
+        $("linksArea").hide();
 }
 function toggleLinks()
 {
-        if (!linksVisible)  expandLinks();
-        else   collapseLinks();
+		
+        if (!linksVisible){
+			refreshLinks();
+			expandLinks();
+			becosVisible=false;
+			ruasVisible = false;
+        }else   collapseLinks();
+}
+
+function expandBecos()
+{
+        setCookie('linksExpanded','0',21,'','','');
+        becosVisible = true;
+        $("linksArea").show();
+}
+function collapseBecos()
+{
+        setCookie('linksExpanded','1',21,'','','');
+        becosVisible = false;
+        $("linksArea").hide();
+}
+
+function toggleBecos()
+{
+		
+        if (!becosVisible){ 
+			refreshBecos();
+			expandBecos();
+			linksVisible = false;
+			ruasVisible = false;
+        }else   collapseBecos();
+}
+
+function expandRuas()
+{
+        setCookie('linksExpanded','0',21,'','','');
+        ruasVisible = true;
+        $("linksArea").show();
+}
+function collapseRuas()
+{
+        setCookie('linksExpanded','1',21,'','','');
+        ruasVisible = false;
+        $("linksArea").hide();
+}
+function toggleRuas()
+{
+//		window.alert(tmp);
+        if (!ruasVisible){
+			refreshRuas();
+			expandRuas();
+			becosVisible=false;
+			linksVisible = false;
+        }else   collapseRuas();
 }
 
 function links_init()
@@ -82,17 +137,52 @@ function links_init()
        refreshLinks();
 }
 
+function becos_init()
+{
+       refreshBecos();
+}
+
+function ruas_init()
+{
+       refreshRuas();
+}
+
 var preContent='0';
 function refreshLinks()
 {
         preContent='0';
-	new Ajax.PeriodicalUpdater('wikiLinks', '/links/index',
+	new Ajax.Updater('wikiLinks', '/links/index',
         {
 
                 onCreate: function(){$('ajax-indicator').style.visibility="hidden"; },
                 onSuccess: function(){$('ajax-indicator').style.visibility="visible";
-		preContent =  $('wikiLinks').innerHTML;} 
+				preContent =  $('wikiLinks').innerHTML;} 
         });
 }
 
+preContent='0';
+function refreshBecos()
+{
+        preContent='0';
+		new Ajax.Updater('wikiLinks', '/links/showBecos',
+        {
+                onCreate: function(){$('ajax-indicator').style.visibility="hidden"; },
+                onSuccess: function(){$('ajax-indicator').style.visibility="visible";
+				preContent =  $('wikiLinks').innerHTML;} 
+        });
+}
 
+preContent='0';
+function refreshRuas()
+{
+	var tmp = window.location.href;
+	
+        preContent='0';
+	new Ajax.Updater('wikiLinks', '/links/showRuas',
+        {
+				parameters: {pagina:tmp},
+                onCreate: function(){$('ajax-indicator').style.visibility="hidden"; },
+                onSuccess: function(){$('ajax-indicator').style.visibility="visible";
+				preContent =  $('wikiLinks').innerHTML;} 
+        });
+}

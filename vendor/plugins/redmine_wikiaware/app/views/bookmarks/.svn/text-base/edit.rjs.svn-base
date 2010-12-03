@@ -1,0 +1,4 @@
+page.replace_html :bookmarks, :partial => 'bookmarks/edit'
+
+page.replace_html :bookmarks_message, 'Bookmark edited'
+page.visual_effect :highlight, :bookmarks_message

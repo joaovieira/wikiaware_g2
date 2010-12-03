@@ -1,0 +1,6 @@
+page.replace_html "wikiaware_section_rating_#{@section_id}", :partial => 'ratings/show_section', :locals => { :section_id => @section_id, :version_id => @version_id, :page_id => @page_id, :user_id => @user_id }
+
+#page.visual_effect :highlight, :dislike_ratings, :duration => 1 #, :startcolor => "\'#fff6a6\'", :endcolor => "\'#eeeeee\'"
+
+#page.replace_html :menu_message, 'You disliked this page'
+#page.visual_effect :highlight, :menu_message

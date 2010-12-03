@@ -1,0 +1,13 @@
+#edit_form_box {
+  position: fixed;
+  display: block;
+  right: 40%;
+  top: 123px;
+  background-color: #507AAA;
+  z-index: 10;
+}
+
+label {
+  color: white;
+  font-weight: bold;
+}

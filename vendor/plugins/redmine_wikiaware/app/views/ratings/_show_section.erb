@@ -1,0 +1,22 @@
+<%= stylesheet_link_tag("ratings", :plugin => "redmine_wikiaware") %>
+<% if not User.current.anonymous? %>    
+  <%= "<span id=\"menu_message_section_#{section_id}\"></span>" %>
+  <% if not SectionRating.liked?(User.current, section_id, version_id) then %>
+    <%= link_to_remote image_tag("thumbs-up.png", :plugin => "redmine_wikiaware", :border => 0), :url => { :controller => "ratings", :action => "like_section", :user_id => User.current, :section_id => section_id, :version_id => version_id, :page_id => page_id} %> 
+  <% else %>
+    <%= image_tag("thumbs-up_green.png", :plugin => "redmine_wikiaware", :border => 0) %>
+  <% end %>  
+  <span id="like_ratings">
+    <%= SectionRating.get_likes(section_id, version_id) %>
+  </span> 
+  | 
+  <% if not SectionRating.disliked?(User.current, section_id, version_id) then %>
+    <%= link_to_remote image_tag("thumbs-down.png", :plugin => "redmine_wikiaware", :border => 0), :url => { :controller => "ratings", :action => "dislike_section", :user_id => User.current, :section_id => section_id, :version_id => version_id, :page_id => page_id} %> 
+    <% else %>
+    <%= image_tag("thumbs-down_red.png", :plugin => "redmine_wikiaware", :border => 0) %>
+  <% end %>  
+  <span id="dislike_ratings">
+    <%= SectionRating.get_dislikes(section_id, version_id) %>
+  </span>
+
+<% end %>
