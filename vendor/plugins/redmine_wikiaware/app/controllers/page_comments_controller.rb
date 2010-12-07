@@ -19,7 +19,11 @@ class PageCommentsController < ApplicationController
   
   def destroy
     @comment = PageComment.find(params[:id])
-    @comment.version_deleted = @comment.wiki_page.content.version
+    if @comment.wiki_page.content.version == 1
+        @comment.destroy
+    else
+    	@comment.version_deleted = @comment.wiki_page.content.version
+    end
     if @comment.save
   	  flash[:notice] = "Comment deleted."
   	else

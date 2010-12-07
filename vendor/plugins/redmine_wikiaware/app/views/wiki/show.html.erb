@@ -1,4 +1,5 @@
 <div class="contextual">
+<%= link_to 'Subscrever', {:controller => 'subscriptions', :action => 'create', :page_id => @page}, :method => :post %>
 
 <span id="bookmarks">
 <%= render :partial => 'bookmarks/show' %> 

@@ -4,7 +4,7 @@
 <% @selected = StatsController.get_stats_prefs %>
 
 <div id="statsbox">
-
+	
 	<!-- <%= @selected[:act] %> --> 
 	<ul id="listingsTop">
 	<% ["E", "R", "C"].each do |act| %>
@@ -13,10 +13,22 @@
 	</ul>
 	<br style="clear: both" />
 	
-	<table id="statstable" hidden="true">
-	<%= render :partial => "stats/statstable" %>
-	</table>
+	<div id="statstablediv">
+		<table id="statstable" hidden="true">
+		<%= render :partial => "stats/statstable" %>
+		</table>
+	</div>
+
 	<br />
+	<% if User.current.admin %>
+		<div>
+			<% form_tag :controller => :stats, :action => :edit_stats_list_size do %>
+			<%= hidden_field_tag(:p, @page.id) %>
+			<%= text_field_tag (:new_list_size, @page.wiki.stats_list_size, :size => 3) %>
+			<%= submit_tag("Ok") %>
+			<% end %>
+		</div>
+	<% end %>
 
 	<!-- <%= @selected[:crit] %> -->
 	<ul id="listingsBottom">

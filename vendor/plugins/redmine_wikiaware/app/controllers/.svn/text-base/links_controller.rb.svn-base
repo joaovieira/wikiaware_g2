@@ -1,6 +1,8 @@
 class LinksController < ApplicationController
   # GET /links
   # GET /links.xml
+  
+  
   def index
 			
      @links = Link.find_by_sql(["SELECT destino,COUNT( * ) FROM links GROUP BY destino ORDER BY COUNT( * ) LIMIT 0 , 5"])
@@ -28,23 +30,37 @@ class LinksController < ApplicationController
   end
   
   def showBecos
-		@links=Wiki.find_by_sql(["SELECT title FROM wiki_pages  WHERE (title) NOT IN (SELECT DISTINCT destino FROM links);"])
+		@links=Wiki.find_by_sql(["SELECT title FROM wiki_pages  WHERE (title) NOT IN (SELECT DISTINCT origem FROM links);"])
 
 	render :partial => 'links/actualiza_becos.erb'
   end
 
   def showRuas()
     
+    numNavegacaoRuas = params[:numeroHits]
+    
     link = params[:pagina]
 
     linkAux = Array.new
     linkAux = link.split('/')
-	print "navegacao " 
-    print linkAux.last()
     
-    print " query "
-    @navegacao = Navegacao.find_by_sql(["SELECT destino,origem, COUNT( * ) FROM navegacaos WHERE origem = '" + linkAux.last() + "' GROUP BY destino,origem ORDER BY COUNT( * ) LIMIT 0 , 5"])
-	print "SELECT destino,origem, COUNT( * ) FROM navegacaos WHERE origem = '" + linkAux.last() + "' GROUP BY destino,origem ORDER BY COUNT( * ) LIMIT 0 , 5"
+    @navegacao = Navegacao.find_by_sql(["SELECT destino,origem, COUNT( * ) FROM navegacaos WHERE origem = '" + linkAux.last() + "' and origem != destino GROUP BY destino,origem HAVING COUNT( * ) < "+numNavegacaoRuas+" ORDER BY COUNT( * )"])
+	
+	#@navegacao = Navegacao.find(:all)
+	
+	render :partial => 'links/actualiza_navegacao.erb'
+  end
+  
+  def showAvenidas()
+    
+    numNavegacaoRuas = params[:numeroHits]
+    
+    link = params[:pagina]
+
+    linkAux = Array.new
+    linkAux = link.split('/')
+    
+    @navegacao = Navegacao.find_by_sql(["SELECT destino,origem, COUNT( * ) FROM navegacaos WHERE origem = '" + linkAux.last() + "' and origem != destino GROUP BY destino,origem HAVING COUNT( * ) >= "+numNavegacaoRuas+" ORDER BY COUNT( * )"])
 	
 	#@navegacao = Navegacao.find(:all)
 	

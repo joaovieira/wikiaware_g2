@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag("comments", :plugin => "redmine_wikiaware") %>
 
-<% if @page.content.was_ever_commentable? %>
+<% if @page.was_ever_commentable? %>
 <div class="comments" id="page-comments">
 	<div class="comments-header" id="page-comments-header">
 		<%= link_to_function("[+] View Page Comments", nil, :id => "toggle-link") do |page|
@@ -20,7 +20,7 @@
 			<% end %>
 		</div>
 
-		<% if @page.content.version == @content.version && @page.content.is_commentable? %>
+		<% if @page.content.version == @content.version && @page.is_commentable? %>
 			<div class="new-comment-form">
 				<%= render :partial => "comments/form" %>
 			</div>

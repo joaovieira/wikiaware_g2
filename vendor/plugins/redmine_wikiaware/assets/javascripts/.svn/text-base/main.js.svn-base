@@ -2,6 +2,8 @@
 var becosVisible=false;
 var linksVisible=false;
 var ruasVisible=false;
+var avenidasVisible=false;
+var numHits = "10";
 var latestId = 0;
 var initializer=2;
 function setCookie(NameOfCookie, value, expiredays)
@@ -82,6 +84,7 @@ function toggleLinks()
 			expandLinks();
 			becosVisible=false;
 			ruasVisible = false;
+			avenidasVisible = false;
         }else   collapseLinks();
 }
 
@@ -106,6 +109,7 @@ function toggleBecos()
 			expandBecos();
 			linksVisible = false;
 			ruasVisible = false;
+			avenidasVisible = false;
         }else   collapseBecos();
 }
 
@@ -129,7 +133,32 @@ function toggleRuas()
 			expandRuas();
 			becosVisible=false;
 			linksVisible = false;
+			avenidasVisible = false;
         }else   collapseRuas();
+}
+
+function expandAvenidas()
+{
+        setCookie('linksExpanded','0',21,'','','');
+        avenidasVisible = true;
+        $("linksArea").show();
+}
+function collapseAvenidas()
+{
+        setCookie('linksExpanded','1',21,'','','');
+        avenidasVisible = false;
+        $("linksArea").hide();
+}
+function toggleAvenidas()
+{
+//		window.alert(tmp);
+        if (!avenidasVisible){
+			refreshAvenidas();
+			expandAvenidas();
+			becosVisible=false;
+			linksVisible = false;
+			ruasVisible = false;
+        }else   collapseAvenidas();
 }
 
 function links_init()
@@ -145,6 +174,11 @@ function becos_init()
 function ruas_init()
 {
        refreshRuas();
+}
+
+function avenidas_init()
+{
+       refreshAvenidas();
 }
 
 var preContent='0';
@@ -180,7 +214,22 @@ function refreshRuas()
         preContent='0';
 	new Ajax.Updater('wikiLinks', '/links/showRuas',
         {
-				parameters: {pagina:tmp},
+				parameters: {pagina:tmp, numeroHits:numHits},
+                onCreate: function(){$('ajax-indicator').style.visibility="hidden"; },
+                onSuccess: function(){$('ajax-indicator').style.visibility="visible";
+				preContent =  $('wikiLinks').innerHTML;} 
+        });
+}
+
+preContent='0';
+function refreshAvenidas()
+{
+	var tmp = window.location.href;
+	
+        preContent='0';
+	new Ajax.Updater('wikiLinks', '/links/showAvenidas',
+        {
+				parameters: {pagina:tmp, numeroHits:numHits},
                 onCreate: function(){$('ajax-indicator').style.visibility="hidden"; },
                 onSuccess: function(){$('ajax-indicator').style.visibility="visible";
 				preContent =  $('wikiLinks').innerHTML;} 

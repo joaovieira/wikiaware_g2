@@ -7,13 +7,13 @@ module WikiControllerPatch
 	base.class_eval do
 		unloadable
 		alias_method_chain :index, :adicionar_navegacao
-		alias_method_chain :edit, :actualiza_commentable
+		alias_method_chain :edit, :update_commentable
+		alias_method_chain :destroy, :destroy_comments
 	end
   end
   
   module ClassMethods
   end
-  
   module InstanceMethods
 		def index_with_adicionar_navegacao
 		
@@ -63,12 +63,18 @@ module WikiControllerPatch
       end
     end
     @editable = editable?
+	
+	@viewcnt = PageView.find_or_create_by_user_id_and_wiki_page_id(User.current.id, @page.id)
+	@viewcnt.views = @viewcnt.views + 1
+	@viewcnt.last_view = Time.now
+	@viewcnt.save
+
     render :action => 'show'
 
 		   	
-		end
-		
-  	def edit_with_actualiza_commentable
+		end   
+
+    def edit_with_update_commentable
   	  @page = @wiki.find_or_new_page(params[:page])    
       return render_403 unless editable?
       @page.content = WikiContent.new(:page => @page) if @page.new_record?
@@ -77,11 +83,22 @@ module WikiControllerPatch
       @content.text = initial_page_content(@page) if @content.text.blank?
       # don't keep previous comment
       @content.comments = nil
+
       if request.get?
         # To prevent StaleObjectError exception when reverting to a previous version
         @content.version = @page.content.version
       else
-        if !@page.new_record? && @content.text == params[:content][:text] && @content.commentable == params[:content][:commentable] ############
+	if @page.commentable != params[:wiki_page][:commentable]
+	  @page.commentable = params[:wiki_page][:commentable]
+      	  if !@page.was_ever_commentable?
+            @page.was_ever_commentable = @page.commentable
+          end
+	  if !@page.new_record?
+	  	@page.save
+          end
+      	end
+
+        if !@page.new_record? && @content.text == params[:content][:text]
           attachments = Attachment.attach_files(@page, params[:attachments])
           render_attachment_warning_if_needed(@page)
           # don't save if text wasn't changed
@@ -92,10 +109,6 @@ module WikiControllerPatch
         #@content.comments = params[:content][:comments]
         @content.attributes = params[:content]
         
-        if !@content.was_ever_commentable?
-          @content.was_ever_commentable = @content.commentable
-        end
-
         @content.author = User.current
         # if page is new @page.save will also save content, but not if page isn't a new record
         if (@page.new_record? ? @page.save : @content.save)
@@ -109,6 +122,37 @@ module WikiControllerPatch
       # Optimistic locking exception
       flash[:error] = l(:notice_locking_conflict)
     end
+
+  # Removes a wiki page and its history
+  # Children can be either set as root pages, removed or reassigned to another parent page
+  def destroy_with_destroy_comments
+    return render_403 unless editable?
+    
+    @descendants_count = @page.descendants.size
+    if @descendants_count > 0
+      case params[:todo]
+      when 'nullify'
+        # Nothing to do
+      when 'destroy'
+        # Removes all its descendants
+        @page.descendants.each(&:destroy)
+      when 'reassign'
+        # Reassign children to another parent page
+        reassign_to = @wiki.pages.find_by_id(params[:reassign_to_id].to_i)
+        return unless reassign_to
+        @page.children.each do |child|
+          child.update_attribute(:parent, reassign_to)
+        end
+      else
+        @reassignable_to = @wiki.pages - @page.self_and_descendants
+        return
+      end
+    end
+
+    @page.page_comments.each{|comment| comment.destroy}
+    @page.destroy
+    redirect_to :action => 'special', :id => @project, :page => 'Page_index'
+  end
   	   
   end
 end

@@ -1,14 +1,14 @@
 10
 
 dir
-17
+21
 svn://ruippeixotog.homeip.net/ldso_public/redmine_wikiaware/test
 svn://ruippeixotog.homeip.net/ldso_public
 
 
 
-2010-12-02T16:00:41.481264Z
-13
+2010-12-03T11:49:22.876465Z
+18
 integrator
 
 
@@ -35,7 +35,7 @@ file
 
 
 
-2010-12-03T11:01:26.937465Z
+2010-12-07T18:19:23.269626Z
 d14592489e5b7d34b33d2487f4770b7d
 2010-11-17T00:57:30.169744Z
 1
@@ -62,6 +62,9 @@ integrator
 
 
 203
+
+functional
+dir
 
 fixtures
 dir

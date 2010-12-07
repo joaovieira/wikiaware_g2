@@ -12,6 +12,7 @@ module WikiawarePatch
         has_many :friends, :through => :friendships, :conditions => ["friendships.accepted = ? AND friendships.blocked = ?", true, false]
         has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
         has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+        has_many :subscriptions
 
 		    def self.search(search)
           if search
@@ -30,24 +31,21 @@ module WikiawarePatch
 		        has_many :page_ratings
             has_many :users, :through => :page_ratings
             has_many :sections, :class_name => 'WikiSection', :foreign_key => 'page_id'
-		    end
-		end
-	end
-	
-	module WikiContent
-  		def self.included(base)
-  		  base.class_eval do
-  		    unloadable 
-  		    def is_commentable?
+            # grupo 5
+            has_many :subscriptions
+            # / grupo 5
+		#grupo 2
+		def is_commentable?
   		    	return commentable
   		    end
 
   		    def was_ever_commentable?
   			return was_ever_commentable
   		    end
-   		  end
-  		end
-  	end
+		# / grupo 2
+		    end # base.class_eval
+		end # self.included
+	end
 
 	module WikiHelper
 		def self.included(base)

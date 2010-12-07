@@ -1,14 +1,14 @@
 10
 
 dir
-17
+21
 svn://ruippeixotog.homeip.net/ldso_public/redmine_wikiaware/test/fixtures
 svn://ruippeixotog.homeip.net/ldso_public
 
 
 
-2010-12-02T16:00:41.481264Z
-13
+2010-12-03T11:49:22.876465Z
+18
 integrator
 
 
@@ -32,7 +32,7 @@ file
 
 
 
-2010-12-03T11:01:26.937465Z
+2010-12-07T18:19:23.257291Z
 1a35b9fad03cbe323ab8e5eafa94a619
 2010-12-02T16:00:41.481264Z
 13
@@ -59,4 +59,72 @@ integrator
 
 
 177
+
+posts.yml
+file
+
+
+
+
+2010-12-07T18:19:23.257291Z
+046969993b0c82a2c38d9327f4fccb4c
+2010-12-03T11:49:22.876465Z
+18
+integrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+233
+
+friendships.yml
+file
+
+
+
+
+2010-12-07T18:19:23.269626Z
+73ef2562902d40a3df46521d1a4dbbe7
+2010-12-03T11:49:22.876465Z
+18
+integrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+143
 

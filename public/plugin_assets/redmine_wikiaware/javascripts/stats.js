@@ -1,6 +1,16 @@
 var i = 0;
 var selectedTop = null;
 var selectedBottom = null;
+var resized = false;
+
+function boxResizing() {
+	var box = document.getElementById('statsbox');
+	var boxDiv = document.getElementById('statstablediv');
+	
+	var newHeight = box.getElementsByTagName('tr').length * 35;
+	box.style.height = (newHeight + 85) + 'px';
+	boxDiv.style.height = newHeight + 'px';
+}
 
 function slide() {
 	var button = document.getElementById('statsbutton');
@@ -25,6 +35,10 @@ function slide() {
 			++i;
 			button.style.right = i + 'px';
 			box.style.width = i + 'px';
+			if(resized == false && table.getElementsByTagName('tr').length != 0) {
+				boxResizing();
+				resized = true;
+			}
 			t = setTimeout("slide()", 0);
 		}
 		else {
@@ -40,6 +54,7 @@ function slide() {
 			if(selectedBottom != null) {
 				selectionBottom.className = 'selectedBottom';
 			}
+			box.style.borderStyle = 'solid';
 			return;
 		}
 	}
@@ -50,7 +65,7 @@ function slide() {
 			listBottom.style.display = 'none';
 		}
     	
-    	if(i > 0) {
+    	if(i >= 0) {
     		--i;
     		button.style.right = i + 'px';
     		box.style.width = i + 'px';
@@ -58,8 +73,8 @@ function slide() {
     	}
     	else {
     		button.className = 'closed';
+    		box.style.borderStyle = 'none';
     		var deselection = document.getElementById(selectedTop);
-    		deselection.className = '_';
     		return;
     	}
     }

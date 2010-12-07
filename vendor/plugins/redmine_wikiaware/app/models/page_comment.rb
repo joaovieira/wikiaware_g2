@@ -8,7 +8,7 @@ class PageComment < ActiveRecord::Base
   def self.find_all_from_version(version, current_version)
       PageComment.all(:conditions => ["? >= version_created AND
                                       (version_deleted IS NULL OR
-                                      (? <= version_deleted AND ? <> version_deleted))", 
+                                      (? < version_deleted AND ? <> version_deleted))", 
                                       version, version, current_version])
   end
 end
