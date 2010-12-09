@@ -6,6 +6,7 @@
 	background-color:#ddd;
 	padding: 2px 10px;
 	font-size: 12px;
+	font-family: Verdana, sans-serif;
 }
 
 .comments-body {
@@ -13,8 +14,12 @@
 	border-top: 1px dotted #aaa;
 }
 
-.comments {
+.comments, .section-comments {
 	border: 1px solid #ccc;
+}
+
+.section-comments {
+	margin-left: 20px;
 }
 
 .comment-heading {

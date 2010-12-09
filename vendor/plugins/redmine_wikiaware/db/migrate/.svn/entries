@@ -26,16 +26,16 @@ integrator
 
 06734a96-7bee-4149-899b-ad61e8f3619f
 
-015_create_subscriptions.rb
+019_add_commentable_and_was_ever_commentable_to_wiki_pages.rb
 file
+23
 
 
 
-
-2010-12-07T18:19:23.667218Z
-4357eba55a4b08cdc45ef90c334cd1cc
-2010-12-03T11:49:22.876465Z
-18
+2010-12-07T17:45:50.666534Z
+895e742f1a54ba35153e97e6bd0ce429
+2010-12-07T19:00:15.018138Z
+23
 integrator
 
 
@@ -58,7 +58,7 @@ integrator
 
 
 
-246
+372
 
 005_create_posts.rb
 file
@@ -94,6 +94,40 @@ integrator
 
 217
 
+015_create_subscriptions.rb
+file
+
+
+
+
+2010-12-07T18:19:23.667218Z
+4357eba55a4b08cdc45ef90c334cd1cc
+2010-12-03T11:49:22.876465Z
+18
+integrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+246
+
 008_add_fields_to_friendship.rb
 file
 
@@ -128,40 +162,6 @@ integrator
 
 334
 
-002_create_links.rb
-file
-
-
-
-
-2010-12-07T18:19:23.667218Z
-92419c75bf3255cbf2c6d2efef98467d
-2010-11-17T00:57:30.169744Z
-1
-integrator
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-217
-
 001_create_page_comments.rb
 file
 
@@ -195,6 +195,40 @@ integrator
 
 
 306
+
+002_create_links.rb
+file
+
+
+
+
+2010-12-07T18:19:23.667218Z
+92419c75bf3255cbf2c6d2efef98467d
+2010-11-17T00:57:30.169744Z
+1
+integrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+217
 
 009_create_wiki_sections.rb
 file
@@ -264,40 +298,6 @@ integrator
 
 275
 
-016_add_stats_list_size_to_wikis.rb
-file
-
-
-
-
-2010-12-07T18:19:23.667218Z
-1d3050a8af465f27a262de37a5949f33
-2010-12-03T12:10:01.676566Z
-19
-integrator
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-229
-
 018_change_last_view_in_page_views.rb
 file
 
@@ -331,6 +331,40 @@ integrator
 
 
 320
+
+016_add_stats_list_size_to_wikis.rb
+file
+
+
+
+
+2010-12-07T18:19:23.667218Z
+1d3050a8af465f27a262de37a5949f33
+2010-12-03T12:10:01.676566Z
+19
+integrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+229
 
 013_create_navegacao.rb
 file
@@ -569,6 +603,40 @@ integrator
 
 
 211
+
+020_add_version_deleted_to_page_comments.rb
+file
+23
+
+
+
+2010-12-07T15:22:56.123482Z
+6cc94c5cc54fa87debe508cea6ff5593
+2010-12-07T19:00:15.018138Z
+23
+integrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+349
 
 003_create_page_ratings.rb
 file

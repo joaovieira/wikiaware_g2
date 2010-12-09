@@ -16,13 +16,13 @@
 				Showing <%= pluralize(@page_comments_version.count, "Comment") %>
 			</div>
 			<% unless @page_comments_version.empty? %>
-		    	<%= render :partial => "comments/comment", :collection => @page_comments_version, :locals => {:controller => 'page_comments'} %>
+		    	<%= render :partial => "comments/comment", :collection => @page_comments_version, :locals => {:page => @page} %>
 			<% end %>
 		</div>
 
 		<% if @page.content.version == @content.version && @page.is_commentable? %>
 			<div class="new-comment-form">
-				<%= render :partial => "comments/form", :locals => {:element => @page, :new_comment => PageComment.new} %>
+				<%= render :partial => "comments/form" %>
 			</div>
 		<% end %>
 	</div>

@@ -1,0 +1,29 @@
+<%= stylesheet_link_tag("comments", :plugin => "redmine_wikiaware") %>
+
+<% if page.was_ever_commentable? %>
+<%= "<div class=\"section-comments\" id=\"section-#{section.id}-comments\">" %>
+	<%= "<div class=\"comments-header\" id=\"section-#{section.id}-comments-header\">" %>
+		<%= link_to_function("[+] View Section #{section.id} Comments", nil, :id => "toggle-link") do |element|
+			element.visual_effect :toggle_blind, "section-#{section.id}-comments-body", :duration => 0.3
+			element << "this.innerHTML = (this.innerHTML == '[+] View Section #{section.id} Comments' ? '[-] Hide Section #{section.id} Comments' : '[+] View Section #{section.id} Comments')"
+		end %>
+	</div>
+
+	<%= "<div class=\"comments-body\" id=\"section-#{section.id}-comments-body\" style=\"display:none;\">" %>
+		<div class="comments-list">
+			<div class="comment-heading">
+				Showing <%= pluralize(section_comments_version.count, "Comment") %>
+			</div>
+			<% unless section_comments_version.empty? %>
+		    	<%= render :partial => "comments/comment", :collection => section_comments_version, :locals => {:controller => 'section_comments'} %>
+			<% end %>
+		</div>
+
+		<% if page.content.version == version_id && page.is_commentable? %>
+			<div class="new-comment-form">
+				<%= render :partial => "comments/form", :locals => {:element => section, :new_comment => SectionComment.new} %>
+			</div>
+		<% end %>
+	</div>
+</div>
+<% end %>

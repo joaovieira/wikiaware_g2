@@ -4,7 +4,8 @@ module WikiawarePatch
 		def self.included(base)
 		  base.class_eval do
 			unloadable
-		    has_many :page_comments, :class_name => 'PageComment'
+		    has_many :page_comments
+		    has_many :section_comments
 		    has_many :page_ratings
       	has_many :wiki_pages, :through => :page_ratings
       	has_many :posts, :class_name => 'Post'
