@@ -1,0 +1,61 @@
+<script type="text/javascript" charset="utf-8"> 
+    $(function()
+    {
+			$('.date-pick').datePicker({startDate:'01/01/2010',endDate: (new Date()).asString()});
+    });
+</script> 
+
+
+		<div id="popupContact">
+		<a id="popupContactClose">x</a>
+		<h1>Navigation Settings</h1>
+
+		<% form_tag(:controller => "links", :action => "setting", :method => "post")  do %>
+		<ul>
+		<li>
+
+
+		Number of pages displayed: 	
+		<select name="pages_displayed">
+			<% 	options_pages_displayed=LinksController.get_options_pages_displayed
+				options_pages_displayed.each do |np| %>
+					<% selecionada= LinksController.get_pages_displayed
+					   if  np == selecionada then %>
+						<option value=<%= np %> selected="selected">
+					   <%else %>
+						<option value=<%= np %>>
+					  <%end %>
+					  <%= np %></option>
+				<% end %>
+		</select>
+
+		</li>
+		
+		<li>
+		An avenue has at least 
+		<select name="minimum_navigation">
+			<% 	options_minimum_navigation=LinksController.get_options_minimum_navigation
+				options_minimum_navigation.each do |np| %>
+					<% selecionada= LinksController.get_minimum_navigation
+					   if  np == selecionada then %>
+						<option value=<%= np %> selected="selected">
+					   <%else %>
+						<option value=<%= np %>>
+					  <%end %>
+					  <%= np %></option>
+				<% end %>
+		</select>  navigations.
+		</li>
+		<li>
+		
+		Default timeframe: <input name="default_time" id="date-input" class="date-pick" readonly />  
+			<% timeframe=LinksController.get_default_time %><%= timeframe %> </input>		
+		</li>
+		</ul><br><br>
+			<div class="settingsOK">
+				 <%= submit_tag 'Ok' %>
+			</div>
+		<% end %>
+		</div>
+
+

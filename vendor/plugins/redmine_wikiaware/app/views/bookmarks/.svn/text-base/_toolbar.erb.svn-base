@@ -1,0 +1,7 @@
+<%= stylesheet_link_tag("bookmarks", :plugin => "redmine_wikiaware") %>
+<% User.current.bookmarks.each do |bk| %>
+  <span class="bookmark_item" id="bookmark_item_<%= bk.id %>">
+  <%= link_to bk.name, bk.get_page_link %>
+  </span>
+<% end %>
+

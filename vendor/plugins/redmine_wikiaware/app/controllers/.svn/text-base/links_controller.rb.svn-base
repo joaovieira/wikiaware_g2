@@ -1,88 +1,157 @@
 class LinksController < ApplicationController
-  # GET /links
-  # GET /links.xml
-  
-  
-  def index
-			
-     @links = Link.find_by_sql(["SELECT destino,COUNT( * ) FROM links GROUP BY destino ORDER BY COUNT( * ) LIMIT 0 , 5"])
+  @@options_pages_displayed = [5,10,15,20]
+  @@options_minimum_navigation = [5,10,15,20]
+  @@pages_displayed=5 #number of pages to be displayed
+  @@default_time="1/1/2010" #the start date to calculate stats
+  @@minimum_navigation=5 #number of navigations to distinguish an avenue from a street
+  @@nome_projecto="projectoA"
+  @@id_projecto=1
+  @@actual_page=1
 
-	 nrows = Link.count
-	 
-	 if nrows == 0
-		paginas=Wiki.find_by_sql(["SELECT title, text  FROM wiki_pages NATURAL JOIN wiki_contents WHERE 1=1"])
-		
-		paginas.each do |pagina|		
-				parsed=parseLinks(pagina.text) 
-
-				parsed.uniq.each do |str|
-						link = Link.new(			
-								:origem => pagina.title, 
-								:destino => str
-						)
-						link.save		
-				end			
-		end
-	 end
-	
-	render :partial => 'links/actualiza_links.erb'
-	
-  end
-  
-  def showBecos
-		@links=Wiki.find_by_sql(["SELECT title FROM wiki_pages  WHERE (title) NOT IN (SELECT DISTINCT origem FROM links);"])
-
-	render :partial => 'links/actualiza_becos.erb'
-  end
-
-  def showRuas()
-    
-    numNavegacaoRuas = params[:numeroHits]
-    
-    link = params[:pagina]
-
-    linkAux = Array.new
-    linkAux = link.split('/')
-    
-    @navegacao = Navegacao.find_by_sql(["SELECT destino,origem, COUNT( * ) FROM navegacaos WHERE origem = '" + linkAux.last() + "' and origem != destino GROUP BY destino,origem HAVING COUNT( * ) < "+numNavegacaoRuas+" ORDER BY COUNT( * )"])
-	
-	#@navegacao = Navegacao.find(:all)
-	
-	render :partial => 'links/actualiza_navegacao.erb'
-  end
-  
-  def showAvenidas()
-    
-    numNavegacaoRuas = params[:numeroHits]
-    
-    link = params[:pagina]
-
-    linkAux = Array.new
-    linkAux = link.split('/')
-    
-    @navegacao = Navegacao.find_by_sql(["SELECT destino,origem, COUNT( * ) FROM navegacaos WHERE origem = '" + linkAux.last() + "' and origem != destino GROUP BY destino,origem HAVING COUNT( * ) >= "+numNavegacaoRuas+" ORDER BY COUNT( * )"])
-	
-	#@navegacao = Navegacao.find(:all)
-	
-	render :partial => 'links/actualiza_navegacao.erb'
-  end
-  
-	def parseLinks(texto={})	
-				arrayAux = Array.new
-				arrayLinks = Array.new
-
-				arrayAux = texto.split("]]")
-				arrayAux.each do |s|
-					if s.index("[[") != nil 
-						sAux = s.split("[[").at(1)
-						if sAux.index("|") != nil
-							arrayLinks.push( sAux.split("|").at(0).gsub(/[\s]+/,"_"))
-						else
-							arrayLinks.push(sAux.gsub(/[\s]+/,"_"))			
-						end
-				    end
-				end
-				
-				return arrayLinks
+  def setting
+	if params[:default_time].size > 0 then
+		@@default_time=params[:default_time]
 	end
+	@@pages_displayed=params[:pages_displayed].to_i
+	@@minimum_navigation=params[:minimum_navigation].to_i
+	redirect_to :back
+  end
+
+  def self.get_pracas		
+	check_update_all()
+     	@links = Link.find_by_sql(["SELECT DISTINCT title, COUNT( * ) FROM links JOIN wiki_pages WHERE links.destino=wiki_pages.id and projecto='"+@@id_projecto.to_s+"' GROUP BY destino ORDER BY COUNT( * ) LIMIT 0 , "+@@pages_displayed.to_s+";"])
+
+	if @links then
+		return @links
+	end
+  end
+  
+  def self.get_becos 
+	check_update_all()
+	@links=Wiki.find_by_sql(["SELECT DISTINCT title FROM wiki_pages JOIN wikis JOIN projects WHERE wiki_pages.wiki_id=wikis.id and wikis.project_id = projects.id and projects.id='"+@@id_projecto.to_s+"' and (wiki_pages.id) NOT IN (SELECT DISTINCT destino FROM links WHERE projecto='"+@@id_projecto.to_s+"') LIMIT 0 , "+@@pages_displayed.to_s+";"]) 
+		
+	if @links then
+		return @links
+	end
+  end
+
+  def self.get_ilhas 
+	check_update_all()
+	@links=Wiki.find_by_sql(["SELECT DISTINCT title FROM wiki_pages JOIN wikis JOIN projects WHERE wiki_pages.wiki_id=wikis.id and wikis.project_id = projects.id and projects.id='"+@@id_projecto.to_s+"' and (wiki_pages.id) NOT IN (SELECT DISTINCT origem FROM links WHERE projecto='"+@@id_projecto.to_s+"') LIMIT 0 , "+@@pages_displayed.to_s+";"]) 
+
+	if @links then
+		return @links
+	end
+  end
+
+	
+  def self.get_ruas
+	time_timestamp=Date.strptime(@@default_time.to_s,"%d/%m/%Y").to_time
+        time_str=time_timestamp.strftime("%Y-%m-%d %I:%M:%S")
+
+	@navegacao = Navigation.find_by_sql(["SELECT wiki_pages1.title as origemT ,wiki_pages2.title as destinoT, COUNT( * ) FROM wiki_pages as wiki_pages1,wiki_pages as wiki_pages2 ,navigations WHERE origem = '" + @@actual_page.to_s+ "' and origem != destino and data > '"+time_str+"' and navigations.origem=wiki_pages1.id and navigations.destino=wiki_pages2.id GROUP BY destino,origem HAVING COUNT( * ) < "+@@minimum_navigation.to_s+" ORDER BY COUNT( * ) LIMIT 0 , "+@@pages_displayed.to_s+";"])
+
+	if @navegacao
+		return @navegacao
+	end
+
+  end
+  
+  def self.get_avenidas
+	time_timestamp=Date.strptime(@@default_time.to_s,"%d/%m/%Y").to_time
+        time_str=time_timestamp.strftime("%Y-%m-%d %I:%M:%S")
+   
+	 @navegacao = Navigation.find_by_sql(["SELECT wiki_pages1.title as origemT ,wiki_pages2.title as destinoT, COUNT( * ) FROM wiki_pages as wiki_pages1,wiki_pages as wiki_pages2 ,navigations WHERE origem = '" + @@actual_page.to_s+ "' and origem != destino and data > '"+time_str+"' and navigations.origem=wiki_pages1.id and navigations.destino=wiki_pages2.id GROUP BY destino,origem HAVING COUNT( * ) >= "+@@minimum_navigation.to_s+" ORDER BY COUNT( * ) LIMIT 0 , "+@@pages_displayed.to_s+";"])
+
+	if @navegacao then
+		return @navegacao
+	end
+  end
+  
+	
+	def self.check_update_all
+		paginas=Wiki.find_by_sql(["SELECT wiki_pages.id AS id_pagina, text FROM wiki_pages JOIN wiki_contents JOIN projects JOIN wikis WHERE wiki_pages.id = wiki_contents.page_id and projects.id=wikis.id and wiki_pages.wiki_id=wikis.id and projects.id='"+@@id_projecto.to_s+"';"])
+
+		Link.delete_all(["projecto = ?", @@id_projecto])
+
+		if paginas and paginas.first then 		
+				paginas.each do |pagina|	
+					parsed=parseLinks(pagina.text) 
+
+					parsed.uniq.each do |str|
+						
+						str_id=Wiki.find_by_sql(["SELECT wiki_pages.id as idW  FROM projects JOIN wiki_pages JOIN wikis WHERE projects.id='"+@@id_projecto.to_s+"' and wiki_pages.wiki_id=wikis.id and wikis.project_id=projects.id and wiki_pages.title='"+str.to_s+"';"])
+									
+						if str_id and str_id.first then	
+							existe=Link.find_by_sql(["SELECT * FROM links WHERE origem='"+pagina.id_pagina.to_s+"' and destino='"+str_id.first[:idW].to_s+"' and projecto='"+@@id_projecto.to_s+"'"])
+
+							if existe and existe.first then 
+								puts "\nthis link already exists\n"
+							else							
+								link = Link.new(			
+										:origem => pagina.id_pagina, 
+										:destino => str_id.first[:idW],
+										:projecto => @@id_projecto
+								)
+							
+									link.save	
+							end
+						end	
+					end			
+			end
+		end
+	end
+
+
+	def self.parseLinks(texto={})	
+			arrayAux = Array.new
+			arrayLinks = Array.new
+
+			arrayAux = texto.split("]]")
+			arrayAux.each do |s|
+				if s.index("[[") != nil 
+					sAux = s.split("[[").at(1)
+					if sAux.index("|") != nil
+						arrayLinks.push( sAux.split("|").at(0).gsub(/[\s]+/,"_"))
+					else
+						arrayLinks.push(sAux.gsub(/[\s]+/,"_"))		
+					end
+			    end
+				
+			end
+			
+			return arrayLinks
+	 end
+
+#getters and setters
+def self.set_actual_project(id)
+	@@id_projecto=id
+	projectos=Wiki.find_by_sql(["SELECT identifier FROM projects WHERE id='"+@@id_projecto.to_s+"';"])
+	@@nome_projecto=projectos[0][:identifier]
+end
+
+def self.set_actual_age(page)
+	@@actual_page=page
+end 
+
+def self.get_options_pages_displayed
+	return @@options_pages_displayed
+end
+def self.get_pages_displayed
+	return @@pages_displayed
+end
+
+def self.get_default_time
+	return @@default_time
+end
+
+def self.get_options_minimum_navigation
+	return @@options_minimum_navigation
+end
+def self.get_minimum_navigation
+	return @@minimum_navigation
+end
+def self.get_projecto
+	return @@nome_projecto
+end
 end

@@ -14,7 +14,10 @@ module WikiawarePatch
         has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
         has_many :inverse_friends, :through => :inverse_friendships, :source => :user
         has_many :subscriptions
-
+        has_many :bookmarks_folders
+        has_many :bookmarks, :through => :bookmarks_folders
+        has_many :wiki_pages, :through => :bookmarks
+        
 		    def self.search(search)
           if search
             find(:all, :conditions => ['login LIKE ? OR firstname LIKE ? OR mail LIKE ?', "%#{search}%", "%#{search}%", "%#{search}%"])
@@ -35,6 +38,8 @@ module WikiawarePatch
             # grupo 5
             has_many :subscriptions
             # / grupo 5
+            has_many :bookmarks, :foreign_key => 'page_id'
+            has_many :users, :through => :bookmarks
 		#grupo 2
 		def is_commentable?
   		    	return commentable

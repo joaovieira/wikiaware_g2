@@ -13,6 +13,16 @@ module RedmineLinks
 						)
 						link.save		
 				end
+# grupo 5
+        @page = context[:page]
+        subscriptions = Subscription.find(:all, :conditions => ['page_id = ?', @page.id])
+        subscriptions.each do |sub|
+          n = Notification.new
+          n.subscription_id = sub.id
+          n.read = false
+          n.save
+        end 
+# / grupo 5
 			end
 			
 			

@@ -1,3 +1,50 @@
+#bookmarks_bar {
+
+	width: 100%;
+	height: 20px;
+ 	padding-top: 0.5%;
+ 	margin-bottom: 1%;
+  background-color: #B4CFEC;
+}
+
+.bookmark_item {
+
+    height: 2px;
+  	font-size: 12px;
+  	color: #153E7E;
+  	margin-left: 2%;
+  	text-align: center;
+}
+
+#bookmark_manager{
+
+    background-color: #DDD;
+    color: #153E7E;
+    font-size: 12px;
+    padding-left: 2%;
+}
+
+.bookmark_list_folder{
+
+    padding-top: 0.5%;
+}
+
+.bookmark_items{
+   
+    padding-bottom: 0.5%;
+}
+
+.bookmark_list_item{
+    
+    margin-top: 0.5%;
+    padding-right: 10%;
+}
+
+.bookmark_controls{
+    
+    
+}
+
 #edit_form_box {
   position: fixed;
   display: block;
@@ -6,7 +53,7 @@
   background-color: #507AAA;
   z-index: 10;
 }
-
+#
 label {
   color: white;
   font-weight: bold;

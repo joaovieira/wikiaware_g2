@@ -1,4 +1,5 @@
-page.replace_html :bookmarks, :partial => 'bookmarks/edit'
+@page_id = @page.id unless @page_id
+page.replace_html :edit_form, :partial => 'bookmarks/edit', :locals => { :page_id => @page_id, :user_id => User.current }
 
 page.replace_html :bookmarks_message, 'Bookmark edited'
 page.visual_effect :highlight, :bookmarks_message

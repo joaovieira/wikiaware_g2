@@ -1,40 +1,48 @@
 module RedmineLinks
 	 class Hooks 
 		class ControllerWikiEditAfterSaveHook < Redmine::Hook::ViewListener
-			def controller_wiki_edit_after_save(context={ })			
-				Link.delete_all(["origem = ?", context[:params][:page]])
-				
-				parsed=parseLinks(context[:params][:content][:text]) 
+			def controller_wiki_edit_after_save(context={ })
+			# grupo 1 	
+				@page = context[:page]
+				@project = context[:project]
+				Link.delete_all(["origem = ? AND projecto = ?", @page.id,@project.id])
 
+				parsed=LinksController.parseLinks(context[:params][:content][:text]) 
+				
 				parsed.uniq.each do |str|
-						link = Link.new(			
-								:origem => context[:params][:page],  #vai buscar o nome da pagina
-								:destino => str
-						)
-						link.save		
+					destino_id=Wiki.find_by_sql(["SELECT wiki_pages.id as idW  FROM projects JOIN wiki_pages JOIN wikis WHERE projects.id='"+@project.id.to_s+"' and wiki_pages.wiki_id=wikis.id and wikis.project_id=projects.id and wiki_pages.title='"+str.to_s+"';"])
+       					if destino_id and destino_id.first then
+							existe=Link.find_by_sql(["SELECT * FROM links WHERE origem='"+@page.id.to_s+"' and destino='"+destino_id.first[:idW].to_s+"' and projecto='"+@project.id.to_s+"'"])
+
+							if existe and existe.first then 
+								puts "\nthis link already exists\n"
+							else				
+								link = Link.new(			
+										:origem => @page.id,  #vai buscar o id da pagina
+										:destino => destino_id.first[:idW],
+										:projecto => @project.id
+								)
+								link.save
+							end
+					end		
 				end
+
+			 # / grupo 1 	
+
+			# grupo 5
+				@page = context[:page]
+				subscriptions = Subscription.find(:all, :conditions => ['page_id = ?', @page.id])
+				subscriptions.each do |sub|
+				  n = Notification.new
+				  n.subscription_id = sub.id
+				  n.read = false
+				  n.save
+				end 
+			# / grupo 5
+
 			end
 			
-			
-	def parseLinks(texto={})	
-				arrayAux = Array.new
-				arrayLinks = Array.new
-
-				arrayAux = texto.split("]]")
-				arrayAux.each do |s|
-					if s.index("[[") != nil 
-						sAux = s.split("[[").at(1)
-						if sAux.index("|") != nil
-							arrayLinks.push( sAux.split("|").at(0).gsub(/[\s]+/,"_"))
-						else
-							arrayLinks.push(sAux.gsub(/[\s]+/,"_"))		
-						end
-				    end
-					
-				end
-				
-				return arrayLinks
-	end
 		end
-	 end
+	end		
+
 end 

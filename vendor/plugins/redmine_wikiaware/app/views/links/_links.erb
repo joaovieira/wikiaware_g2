@@ -1,0 +1,80 @@
+<%= javascript_include_tag 'links.js', :plugin => 'redmine_wikiaware' %>
+
+<div class="boxBody">		  
+	  <div id="avenidas"><ul>			
+						
+					<% @navegacao = LinksController.get_avenidas
+				   if @navegacao then 
+					@@projecto = LinksController.get_projecto
+			           @navegacao.reverse.each do |naveg| %>
+
+				<li> <%= link_to naveg[:origemT].to_s , "/projects/"+@@projecto.to_s+"/wiki/"+naveg[:origemT].to_s %>  ->  <%= link_to naveg[:destinoT].to_s , "/projects/"+@@projecto.to_s+"/wiki/"+naveg[:destinoT].to_s %>  #<%= naveg['COUNT( * )'].to_s %></li>
+				
+				   <%end  end %>
+		</ul>	 
+		  </div>  
+		  
+		  
+		<div id="ruas"><ul>			
+					<% @navegacao = LinksController.get_ruas
+				   if @navegacao then 
+					@@projecto = LinksController.get_projecto
+			           @navegacao.reverse.each do |naveg| %>
+
+				<li> <%= link_to naveg[:origemT].to_s , "/projects/"+@@projecto.to_s+"/wiki/"+naveg[:origemT].to_s %>  ->  <%= link_to naveg[:destinoT].to_s , "/projects/"+@@projecto.to_s+"/wiki/"+naveg[:destinoT].to_s %>  #<%= naveg['COUNT( * )'].to_s %></li>
+
+				   <%end  end %>
+		</ul>	 
+		  </div>  
+
+		   <div id="pracas">	    
+			<ul>
+				<% 		   
+				   @links = LinksController.get_pracas
+				   @@nome_projecto = LinksController.get_projecto
+				   if @links then 
+					   @links.reverse.each do |link| %>
+						<li> <%= link_to link[:title] , "/projects/"+@@nome_projecto+"/wiki/"+link[:title] %>  #<%= link['COUNT( * )']%></li>
+					   <%end%>
+				   <%end%>
+			</ul>    
+		  </div>  
+		  
+		  <div id="becos">
+			<ul>
+				<% @links = LinksController.get_becos
+	 			   @@nome_projecto = LinksController.get_projecto
+				   if @links then 
+					   @links.reverse.each do |link| %>
+						<li> <%= link_to link[:title] , "/projects/"+@@nome_projecto+"/wiki/"+link[:title] %></li>
+					   <%end%>
+				  <%end%>
+			</ul>  
+		</div>
+
+		<div id="ilhas">
+			<ul>
+				<% @links = LinksController.get_ilhas 
+				   @@nome_projecto = LinksController.get_projecto
+				   if @links then 
+					   @links.reverse.each do |link| %>
+						<li> <%= link_to link[:title] , "/projects/"+@@nome_projecto+"/wiki/"+link[:title] %></li>
+					   <%end%>
+				  <%end%>
+			</ul>  
+		</div>
+</div>
+		<div class="caixa">			
+			<ul id="tabMenu">
+		  	<li class="avenidas" title="Avenues"></li>
+		  	<li class="ruas" title="Streets"></li> 
+		  	<li class="pracas" title="Squares"></li>
+		 	<li class="becos" title="Islands"></li>
+			<li class="ilhas" title="Alleys"></li>
+			<a class="definicoes" href='#' id="popup" ></a>
+			<a class="help" href='#' id="popup2" ></a>
+			</ul>	
+			
+		
+		</div>		
+

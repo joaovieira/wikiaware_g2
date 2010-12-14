@@ -1,0 +1,19 @@
+<span id="edit_form"> 
+</span>
+
+<% for folder in @bookmarks_folders do %>
+  <div class="bookmark_list_folder" id="bookmark_folder_<%= folder.id %>">
+    <%= folder.name %>
+  </div>
+  <div class="bookmark_items">
+  <% for bookmark in folder.bookmarks do %>
+	  <div class="bookmark_list_item" id="bookmark_page_<%= bookmark.page_id %>">
+	    <%= link_to bookmark.name, bookmark.get_page_link %>
+	    <span class="bookmark_controls"> 
+	      <%= link_to_remote "Editar", :url => { :controller => "bookmarks", :action => "edit", :page_id => bookmark.page_id, :user_id => User.current } %> 
+	          <%= link_to "Eliminar", :controller => "bookmarks", :action => "delete", :page_id => bookmark.page_id, :user_id => User.current %>
+	    </span>
+	  </div>
+  <% end %>
+  </div>
+<% end %>

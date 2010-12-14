@@ -139,6 +139,18 @@ jsToolBar.prototype.elements.ol = {
 	}
 }
 
+// section
+jsToolBar.prototype.elements.section = {
+	type: 'button',
+	title: 'Section',
+	fn: {
+		wiki: function() {
+			id = xxx 
+			this.encloseSelection("@{{section('Title'," + id + ")}}@\n", "\n@{{section_end(" + id + ")}}@") 
+		}
+	}
+}
+
 // spacer
 jsToolBar.prototype.elements.space3 = {type: 'space'}
 

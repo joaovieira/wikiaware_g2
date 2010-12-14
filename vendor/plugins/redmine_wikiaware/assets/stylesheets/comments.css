@@ -51,6 +51,7 @@
 
 .comment-author {
 	float: left;
+	font-style: italic;
 }
 .comment-actions {
 	float: right;

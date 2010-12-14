@@ -16,7 +16,11 @@ Redmine::Plugin.register :redmine_wikiaware do
 # grupo 5
   menu :application_menu, :posts, {:controller=>'posts', :action=>'index'}, :caption=>'Microblogging'
   menu :application_menu, :subscriptions, {:controller=>'subscriptions', :action=>'index'}, :caption=>'Subscriptions'
+  menu :application_menu, :notifications, {:controller=>'notifications', :action=>'index'}, :caption=>'Notifications'
 # grupo 5
+# grupo 3
+  menu :application_menu, :bookmarks, {:controller=>'bookmarks', :action=>'index'}, :caption=>'Bookmarks'
+# grupo 3  
 end
 
 Dispatcher.to_prepare :redmine_wikiaware do

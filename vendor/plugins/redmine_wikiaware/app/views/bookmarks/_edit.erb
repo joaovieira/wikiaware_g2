@@ -1,13 +1,14 @@
 <%= stylesheet_link_tag("bookmarks", :plugin => "redmine_wikiaware") %>
-<div id ="edit_form_box">
-<% @page_id = @page.id unless @page_id %> 
+<div id ="edit_form_box"> 
 
-<% form_for :bookmark, :url => {:controller => 'bookmarks', :action => 'edit', :user_id => User.current, :page_id => @page_id } do |f| %>	
+<% form_for :bookmark, :url => {:controller => 'bookmarks', :action => 'edit', :user_id => user_id, :page_id => page_id } do |f| %>	
 	<span class="edit_form_fields">
     <%= f.label :name, 'Name' %>:
     <%= f.text_field :name, :size => 15 %>
     <%= f.label :description, 'Description' %>:
     <%= f.text_field :description %>
+    <%= f.label :folder, 'Folder' %>:
+    <%= f.collection_select (:folder_id, User.current.bookmarks_folders, :id, "name") %>
 	</span>
 	<span class="edit_form_actions">
 		<%= f.submit 'Save' %>
