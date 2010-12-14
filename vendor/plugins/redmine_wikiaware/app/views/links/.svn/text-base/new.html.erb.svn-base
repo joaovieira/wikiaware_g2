@@ -1,0 +1,17 @@
+<h1>New link</h1>
+
+<% form_for(@link) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :origem %><br />
+    <%= f.text_field :origem %>
+  </p>
+  <p>
+    <%= f.label :destino %><br />
+    <%= f.text_field :destino %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>

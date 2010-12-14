@@ -6,7 +6,7 @@
 	
 	<% if authorize_for(:wiki, :edit) or User.current == comment.user %>
 		<div class="comment-actions">
-			<%= link_to 'Delete', {:controller => 'page_comments', :action => 'destroy', :id => comment}, :confirm => 'Are you sure?', :class => 'icon icon-del' %>
+			<%= link_to 'Delete', {:controller => controller, :action => 'destroy', :id => comment}, :method => 'delete', :confirm => 'Are you sure?', :class => 'icon icon-del' %>
 		</div>
 	<% end %>
 	

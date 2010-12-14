@@ -6,8 +6,6 @@
 <title><%=h html_title %></title>
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
-
-
 <%= favicon %>
 <%= stylesheet_link_tag 'application', :media => 'all' %>
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
@@ -24,25 +22,12 @@
 <%= yield :header_tags -%>
 
 <% if User.current.logged? %>
-	<%= javascript_include_tag 'links.js', :plugin => 'redmine_wikiaware' %>
-	<%= stylesheet_link_tag 'links.css', :plugin => 'redmine_wikiaware' %>
-	<%= javascript_include_tag 'jquery.js', :plugin => 'redmine_wikiaware' %>
-	<%= javascript_include_tag 'jquery.tooltip.js', :plugin => 'redmine_wikiaware' %>
-	<%= javascript_include_tag 'date.js', :plugin => 'redmine_wikiaware' %>
-	<%= javascript_include_tag 'jquery.datePicker.js', :plugin => 'redmine_wikiaware' %>
-	<%= stylesheet_link_tag 'datePicker.css', :plugin => 'redmine_wikiaware' %>
-	<%= javascript_include_tag 'popup.js', :plugin => 'redmine_wikiaware' %>
+	<%= stylesheet_link_tag 'main.css', :plugin => 'redmine_wikiaware' %>
+	<%= javascript_include_tag 'main.js', :plugin => 'redmine_wikiaware' %>
 <% end %>
 
-	<!-- codigo HTML de links -->
-	<% if params[:controller] == "wiki" && params[:action] == "index" && @page %>
-		<%= render :partial => "links/settings_popup" %>
-		<%= render :partial => "links/help_popup" %>
-	<% end %>	
 </head>
 <body class="<%= body_css_classes %>">
-
-
 <div id="wrapper">
 <div id="wrapper2">
 <div id="top-menu">
@@ -82,12 +67,6 @@
 		<% end %>
 		<!-- fim de codigo HTML de stats -->
 
-		<!-- codigo HTML de links -->
-		<% if params[:controller] == "wiki" && params[:action] == "index" && @page %>
-			<%= render :partial => "links/links" %>
-		<% end %>	
-		
-		<!-- fim de codigo HTML de links -->
         <%= call_hook :view_layouts_base_sidebar %>
     </div>
     
@@ -108,6 +87,24 @@
 </div>
 </div>
 </div>
+
+<% if User.current.logged? %>
+<%= call_hook :view_layouts_base_body_bottom %>
+
+<%
+  numOnline=0
+%>
+
+<div id="linksFooter" onclick="toggleLinks();">Praças</div>
+<div id="linksFooter2" onclick="toggleBecos();">Becos</div>
+<div id="linksFooter3" onclick="toggleRuas();">Ruas</div>
+<div id="linksFooter4" onclick="toggleAvenidas();">Avenidas</div>
+<div id="linksArea" style="display: none;">
+<div id="wikiLinks" class="wikiLinks"></div>
+
+
+
+<% end %>
 
 </body>
 </html>

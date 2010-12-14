@@ -2,7 +2,7 @@
 <% if not User.current.anonymous? %>    
   <span id="menu_message"></span>
   <% @page_id = @page.id unless @page_id %> 
-  <% @version_id = @page.content.version unless @version_id %> 
+  <% @version_id = @content.version unless @version_id %> 
   <% if not PageRating.liked?(User.current, @page_id, @version_id) then %>
     <%= link_to_remote image_tag("thumbs-up.png", :plugin => "redmine_wikiaware", :border => 0), :url => { :controller => "ratings", :action => "like", :user_id => User.current, :page_id => @page_id, :version_id => @version_id } %> 
   <% else %>

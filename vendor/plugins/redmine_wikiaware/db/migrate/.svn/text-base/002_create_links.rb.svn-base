@@ -1,9 +1,8 @@
 class CreateLinks < ActiveRecord::Migration
   def self.up
     create_table :links do |t|
-      t.column :origem, :int
-      t.column :destino, :int
-      t.column :projecto, :int
+      t.column :origem, :string
+      t.column :destino, :string
     end
   end
 

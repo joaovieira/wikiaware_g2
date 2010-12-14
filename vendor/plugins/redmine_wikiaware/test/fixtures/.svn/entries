@@ -1,14 +1,14 @@
 10
 
 dir
-27
+31
 svn://ruippeixotog.homeip.net/ldso_public/redmine_wikiaware/test/fixtures
 svn://ruippeixotog.homeip.net/ldso_public
 
 
 
-2010-12-03T11:49:22.876465Z
-18
+2010-12-14T20:46:38.940432Z
+31
 integrator
 
 
@@ -32,10 +32,10 @@ file
 
 
 
-2010-12-14T19:45:59.933233Z
+2010-12-14T20:47:06.540524Z
 1a35b9fad03cbe323ab8e5eafa94a619
-2010-12-02T16:00:41.481264Z
-13
+2010-12-14T20:46:38.940432Z
+31
 integrator
 
 
@@ -60,16 +60,50 @@ integrator
 
 177
 
+page_comments.yml
+file
+
+
+
+
+2010-12-14T20:47:06.540524Z
+5215f8b221060973394efb187b65eccc
+2010-12-14T20:46:38.940432Z
+31
+integrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+279
+
 posts.yml
 file
 
 
 
 
-2010-12-14T19:45:59.933233Z
+2010-12-14T20:47:06.540524Z
 046969993b0c82a2c38d9327f4fccb4c
-2010-12-03T11:49:22.876465Z
-18
+2010-12-14T20:46:38.940432Z
+31
 integrator
 
 
@@ -94,16 +128,50 @@ integrator
 
 233
 
+section_comments.yml
+file
+
+
+
+
+2010-12-14T20:47:06.540524Z
+92d6a27a911e796578501bd5def6d30a
+2010-12-14T20:46:38.940432Z
+31
+integrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+285
+
 friendships.yml
 file
 
 
 
 
-2010-12-14T19:45:59.933233Z
+2010-12-14T20:47:06.540524Z
 73ef2562902d40a3df46521d1a4dbbe7
-2010-12-03T11:49:22.876465Z
-18
+2010-12-14T20:46:38.940432Z
+31
 integrator
 
 

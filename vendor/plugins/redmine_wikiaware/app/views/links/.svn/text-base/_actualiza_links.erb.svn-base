@@ -1,0 +1,18 @@
+<% 
+
+@links.reverse.each do |link|
+%>
+
+<div class='wikiLink' title="<%= link[:id] %>">
+
+	<div style="float: left; border-bottom: thin solid #DDDDEE;"></div>
+
+	<div style="float: left; border-bottom: thin dotted #DDDDEE; width: 550px; height: 32px; padding: 10px; background-color: #FFFFFF;">
+	<b style="font-size: 14px;"> <%= link_to link[:destino] , link[:destino] %> #<%= link['COUNT( * )']%></b> 
+
+</div>
+
+<% 
+
+
+end %>

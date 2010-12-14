@@ -1,12 +1,12 @@
-class PageComment < ActiveRecord::Base
+class SectionComment < ActiveRecord::Base
   unloadable
   belongs_to :user
-  belongs_to :wiki_page
+  belongs_to :wiki_section
     
-  validates_presence_of :content, :user, :wiki_page, :version_created
+  validates_presence_of :content, :user, :wiki_section, :version_created
   
   def self.find_all_from_version version
-      PageComment.all(:conditions => ["? >= version_created AND
+      SectionComment.all(:conditions => ["? >= version_created AND
                                       (version_deleted IS NULL OR ? < version_deleted)", 
                                       version, version])
   end

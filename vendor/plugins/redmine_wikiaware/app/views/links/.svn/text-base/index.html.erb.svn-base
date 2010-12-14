@@ -1,0 +1,17 @@
+<h1>Listing links</h1>
+
+<table>
+  <tr>
+    <th>Origem</th>
+    <th>Destino</th>
+  </tr>
+
+<% @links.each do |link| %>
+  <tr>
+    <td><%=h link.origem %></td>
+    <td><%=h link.destino %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

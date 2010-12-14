@@ -1,6 +1,6 @@
 <div class="comment-heading">Add New Comment</div>
 
-<% form_for([@page, PageComment.new]) do |f| %>	
+<% form_for [element, new_comment], :html => {:onsubmit => "if (document.getElementById('content_text').className == 'empty'){document.getElementById('content_text').value = ''};"} do |f| %>	
 	<div class="field">
 		<%= hinted_text_area_tag :content_text, nil, "Type your comment here.", :rows => 6 %>
 	</div>
