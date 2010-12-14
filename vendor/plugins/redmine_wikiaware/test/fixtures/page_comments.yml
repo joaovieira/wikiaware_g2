@@ -1,7 +1,12 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-# one:
-#   column: value
-#
-# two:
-#   column: value
+page_comment001:
+    id: 1
+    version_created: 1
+    version_deleted: 3
+    content: comentario 1
+    
+page_comment002:
+    id: 2
+    version_created: 2
+    version_deleted: NULL
+    content: comentario 2

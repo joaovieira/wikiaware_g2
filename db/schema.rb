@@ -60,15 +60,6 @@ ActiveRecord::Schema.define(:version => 20100819172912) do
   add_index "boards", ["last_message_id"], :name => "index_boards_on_last_message_id"
   add_index "boards", ["project_id"], :name => "boards_project_id"
 
-  create_table "bookmarks", :force => true do |t|
-    t.string  "description"
-    t.string  "location"
-    t.string  "name"
-    t.integer "position"
-    t.integer "page_id"
-    t.integer "user_id"
-  end
-
   create_table "changes", :force => true do |t|
     t.integer "changeset_id",                               :null => false
     t.string  "action",        :limit => 1, :default => "", :null => false
@@ -192,13 +183,6 @@ ActiveRecord::Schema.define(:version => 20100819172912) do
   add_index "enumerations", ["id", "type"], :name => "index_enumerations_on_id_and_type"
   add_index "enumerations", ["project_id"], :name => "index_enumerations_on_project_id"
 
-  create_table "friendships", :force => true do |t|
-    t.integer "user_id"
-    t.integer "friend_id"
-    t.boolean "accepted",  :default => false
-    t.boolean "blocked",   :default => false
-  end
-
   create_table "groups_users", :id => false, :force => true do |t|
     t.integer "group_id", :null => false
     t.integer "user_id",  :null => false
@@ -295,11 +279,6 @@ ActiveRecord::Schema.define(:version => 20100819172912) do
   add_index "journals", ["journalized_id"], :name => "index_journals_on_journalized_id"
   add_index "journals", ["user_id"], :name => "index_journals_on_user_id"
 
-  create_table "links", :force => true do |t|
-    t.string "origem"
-    t.string "destino"
-  end
-
   create_table "member_roles", :force => true do |t|
     t.integer "member_id",      :null => false
     t.integer "role_id",        :null => false
@@ -339,12 +318,6 @@ ActiveRecord::Schema.define(:version => 20100819172912) do
   add_index "messages", ["last_reply_id"], :name => "index_messages_on_last_reply_id"
   add_index "messages", ["parent_id"], :name => "messages_parent_id"
 
-  create_table "navegacaos", :force => true do |t|
-    t.string   "origem"
-    t.string   "destino"
-    t.datetime "data"
-  end
-
   create_table "news", :force => true do |t|
     t.integer  "project_id"
     t.string   "title",          :limit => 60, :default => "", :null => false
@@ -372,36 +345,6 @@ ActiveRecord::Schema.define(:version => 20100819172912) do
     t.integer "timestamp",  :null => false
     t.string  "server_url"
     t.string  "salt",       :null => false
-  end
-
-  create_table "page_comments", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "wiki_page_id"
-    t.text     "content"
-    t.integer  "version_created"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "version_deleted"
-  end
-
-  create_table "page_ratings", :force => true do |t|
-    t.boolean "like"
-    t.integer "user_id"
-    t.integer "page_id"
-    t.integer "version_id"
-  end
-
-  create_table "page_views", :force => true do |t|
-    t.integer  "user_id",                     :null => false
-    t.integer  "wiki_page_id",                :null => false
-    t.integer  "views",        :default => 0, :null => false
-    t.datetime "last_view"
-  end
-
-  create_table "posts", :force => true do |t|
-    t.integer  "user_id"
-    t.text     "content"
-    t.datetime "created_at"
   end
 
   create_table "projects", :force => true do |t|
@@ -462,23 +405,6 @@ ActiveRecord::Schema.define(:version => 20100819172912) do
     t.text    "permissions"
   end
 
-  create_table "section_comments", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "wiki_section_id"
-    t.text     "content"
-    t.integer  "version_created"
-    t.integer  "version_deleted"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "section_ratings", :force => true do |t|
-    t.boolean "like"
-    t.integer "section_id"
-    t.integer "user_id"
-    t.integer "version_id"
-  end
-
   create_table "settings", :force => true do |t|
     t.string   "name",       :default => "", :null => false
     t.text     "value"
@@ -486,13 +412,6 @@ ActiveRecord::Schema.define(:version => 20100819172912) do
   end
 
   add_index "settings", ["name"], :name => "index_settings_on_name"
-
-  create_table "subscriptions", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "page_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "time_entries", :force => true do |t|
     t.integer  "project_id",  :null => false
@@ -612,20 +531,12 @@ ActiveRecord::Schema.define(:version => 20100819172912) do
   add_index "wiki_contents", ["author_id"], :name => "index_wiki_contents_on_author_id"
   add_index "wiki_contents", ["page_id"], :name => "wiki_contents_page_id"
 
-  create_table "wiki_page_user_permissions", :force => true do |t|
-    t.integer "member_id"
-    t.integer "wiki_page_id"
-    t.integer "level"
-  end
-
   create_table "wiki_pages", :force => true do |t|
-    t.integer  "wiki_id",                                 :null => false
-    t.string   "title",                                   :null => false
-    t.datetime "created_on",                              :null => false
-    t.boolean  "protected",            :default => false, :null => false
+    t.integer  "wiki_id",                       :null => false
+    t.string   "title",                         :null => false
+    t.datetime "created_on",                    :null => false
+    t.boolean  "protected",  :default => false, :null => false
     t.integer  "parent_id"
-    t.boolean  "commentable",          :default => false
-    t.boolean  "was_ever_commentable", :default => false
   end
 
   add_index "wiki_pages", ["parent_id"], :name => "index_wiki_pages_on_parent_id"
@@ -642,17 +553,10 @@ ActiveRecord::Schema.define(:version => 20100819172912) do
   add_index "wiki_redirects", ["wiki_id", "title"], :name => "wiki_redirects_wiki_id_title"
   add_index "wiki_redirects", ["wiki_id"], :name => "index_wiki_redirects_on_wiki_id"
 
-  create_table "wiki_sections", :force => true do |t|
-    t.integer "page_id"
-    t.text    "title"
-    t.integer "version_id"
-  end
-
   create_table "wikis", :force => true do |t|
-    t.integer "project_id",                     :null => false
-    t.string  "start_page",                     :null => false
-    t.integer "status",          :default => 1, :null => false
-    t.integer "stats_list_size", :default => 3, :null => false
+    t.integer "project_id",                :null => false
+    t.string  "start_page",                :null => false
+    t.integer "status",     :default => 1, :null => false
   end
 
   add_index "wikis", ["project_id"], :name => "wikis_project_id"

@@ -49,7 +49,7 @@ module WikiawareSections
             
       section_id = args[0].strip
       section = page.sections.find_or_create_by_id(section_id)
-      section_comments_version = section.section_comments.find_all_from_version(obj.version, page.content.version)   
+      section_comments_version = section.section_comments.find_all_from_version(obj.version)   
     
       if not params.has_key?('version')
         section.version_id = page.content.version

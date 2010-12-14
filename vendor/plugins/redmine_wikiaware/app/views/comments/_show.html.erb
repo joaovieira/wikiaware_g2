@@ -11,7 +11,7 @@
 
 	<div class="comments-body" id="page-comments-body" style="display:none;">
 		<div class="comments-list">
-			<% @page_comments_version = @page.page_comments.find_all_from_version(@content.version, @page.content.version) %>
+			<% @page_comments_version = @page.page_comments.find_all_from_version(@content.version) %>
 			<div class="comment-heading">
 				Showing <%= pluralize(@page_comments_version.count, "Comment") %>
 			</div>
