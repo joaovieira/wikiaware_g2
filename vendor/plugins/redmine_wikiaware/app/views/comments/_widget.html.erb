@@ -1,0 +1,19 @@
+<h2>Last Comments</h2>
+<% @last_page_comments = PageComment.find_all_by_user_id(User.current) %>
+<% @last_section_comments = SectionComment.find_all_by_user_id(User.current) %>
+<% @last_comments = @last_page_comments.concat(@last_section_comments).sort_by(&:created_at).reverse! %>
+<% @last_comments[0..9].each do |comment| %>
+	<span class="dashboard-comment-date">
+		[<%= time_ago_in_words(comment.created_at) %>] 
+	</span>
+	<span class="dashboard-comment-link">
+		<% if(comment.class == PageComment) %>
+			<%= link_to_page comment.wiki_page.title, comment.wiki_page %>
+		<% else %>
+			<%= link_to_page "#{comment.wiki_section.wiki_page.title}, #{comment.wiki_section.title}", comment.wiki_section.wiki_page, "wikiaware_section_title_#{comment.wiki_section.id}" %>
+		<% end %>
+	</span>
+	<span class="dashboard-comment-content">
+		- "<%= comment.content[0..29] %>"...<br/>
+	</span>
+<% end %>

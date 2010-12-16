@@ -1,9 +1,14 @@
 <h1>Bookmarks</h1>
 
 <div id="bookmarks_bar"> 
-<%= render :partial => 'bookmarks/toolbar' %>
+<%= render :partial => 'bookmarks/toolbar', :locals => { :manager => true } %>
 </div>
 <p></p>
 <div id="bookmark_manager">
 <%= render :partial => 'bookmarks/manager' %>
 </div>
+<%= drop_receiving_element("bookmarks_bar", 
+                           :accept => "bookmark_name",
+                           :with   => "'bookmark_id=' + (element.id.split('_').last())",
+                           :url => { :controller => "bookmarks", :action =>"put_on_toolbar" }, 
+                           :hoverclass => "bookmark_items_hover") %>  

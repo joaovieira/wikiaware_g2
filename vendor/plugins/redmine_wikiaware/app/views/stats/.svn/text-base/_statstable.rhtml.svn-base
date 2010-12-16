@@ -1,7 +1,7 @@
 <% unless @list.nil? || @list.count == 0 %>
 	<% @list.each do |e| -%>
 		<tr>
-			<td><%= e[:user].to_s %></td>
+			<td><a id="userName" href="../../users/<%= e[:user].id %>"><%= e[:user].to_s %></a></td>
 			<td><%= e[:value].to_s %></td>
 		</tr>
 	<% end -%>

@@ -1,0 +1,6 @@
+<% form_tag "bookmarks/create_folder" do -%>
+  <%= label_tag :name, "Folder" %>:
+  <%= text_field_tag :name %>
+  <%= hidden_field_tag (:user_id, User.current.id) %>
+  <%= submit_tag "Create" %>
+<% end -%>

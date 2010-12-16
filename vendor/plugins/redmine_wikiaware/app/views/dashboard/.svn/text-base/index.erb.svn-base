@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag("dashboard", :plugin => "redmine_wikiaware") %>
+
+<h1>Dashboard</h1>
+
+<div id="widget_top"> 
+  <%= render :partial => 'subscriptions/widget' %>
+</div>
+
+<div id="widget_bottom"> 
+  <%= render :partial => 'links/widget' %>
+</div>
+
+<div id="widget_center">
+  <div id="widget_left"> 
+    <%= render :partial => 'bookmarks/widget' %>
+  </div>
+
+  <div id="widget_right"> 
+    <%= render :partial => 'comments/widget' %>
+  </div>
+</div>

@@ -10,9 +10,11 @@
 
 <p><label>Allow Comments</label>
 <%= fields_for @content.page do |page_fields|
-	page_fields.check_box :commentable
+	page_fields.check_box :commentable 
 end %>
 </p>
+
+<%= "<div id='lastSectionId' class='#{WikiSection.last.id}'></div>" %>
 
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview), 

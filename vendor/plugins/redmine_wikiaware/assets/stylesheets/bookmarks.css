@@ -17,44 +17,108 @@
 }
 
 #bookmark_manager{
-
-    background-color: #DDD;
     color: #153E7E;
     font-size: 12px;
     padding-left: 2%;
 }
 
 .bookmark_list_folder{
+    font-weight: bold;
+    padding-top: 2%;
+    padding-bottom: 0.5%;
+}
 
-    padding-top: 0.5%;
+.bookmark_folder_image{
+    padding-right: 0.4%;
+    top: 5%;
 }
 
 .bookmark_items{
-   
+    border: 1px solid #ccc;
+    background-color: #DDD;
+    margin-left: 1.8%;
     padding-bottom: 0.5%;
+}
+
+.bookmark_name{
+
+  margin-right: 10%;
+
 }
 
 .bookmark_list_item{
     
     margin-top: 0.5%;
-    padding-right: 10%;
+    left: 20%;    
+
 }
 
-.bookmark_controls{
-    
-    
+.bookmark_name{
+
 }
+
+.bookmark_view
+{
+  position: absolute;
+  left: 15%;
+}
+
+.bookmark_edit{
+
+  position: absolute;
+  left: 19%;
+
+
+}
+
+.bookmark_delete{
+
+  position: absolute;
+  left: 23%;
+
+}
+
+.bookmark_folder_delete{
+  
+  position: absolute;
+  left: 10%;
+}
+
 
 #edit_form_box {
+  padding-left: 0.5%;
+  padding-right: 1.5%;
+  padding-top: 0.4%;
   position: fixed;
   display: block;
-  right: 40%;
-  top: 123px;
-  background-color: #507AAA;
+  right: 24%;
+  top: 165px;
+  height: 27px;
+  background-color: #ddd;
   z-index: 10;
+  color: black;
+  border: 1px solid #ccc;
 }
-#
-label {
+
+.delete_form_actions {
+  padding-left: 5px;
+  position: absolute;  
+  top: 7px;
+}
+
+#label {
   color: white;
   font-weight: bold;
 }
+
+.bookmark_items_hover {
+  background-color: #FFCB6B;
+}
+
+#create_folder{
+
+  padding-left: 5%;
+  padding-top:5%;
+
+}
+

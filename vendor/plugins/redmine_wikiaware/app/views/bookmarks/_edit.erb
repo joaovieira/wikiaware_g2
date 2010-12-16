@@ -7,11 +7,17 @@
     <%= f.text_field :name, :size => 15 %>
     <%= f.label :description, 'Description' %>:
     <%= f.text_field :description %>
-    <%= f.label :folder, 'Folder' %>:
-    <%= f.collection_select (:folder_id, User.current.bookmarks_folders, :id, "name") %>
+    <%= f.label :folder_id, 'Folder' %>:
+    <%= f.collection_select(:folder_id, User.current.bookmarks_folders, :id, "name") %>
+    <%= f.label :position, 'Position' %>:
+    <%= f.select(:position, Bookmark.bookmarks_positions_list(User.current.id, page_id)) %>
 	</span>
 	<span class="edit_form_actions">
-		<%= f.submit 'Save' %>
+	    <%= f.submit 'Save' %>
 	</span>
+	<span class="delete_form_actions">  
+      <%= link_to_remote image_tag("delete.png", :wikiaware => "public", :border => 0), :url => { :controller => "bookmarks", :action => "delete", :page_id => @page_id, :user_id => User.current } %></span>
 <% end %>
 </div>
+
+<%  #draggable_element "edit_form_box" %>  

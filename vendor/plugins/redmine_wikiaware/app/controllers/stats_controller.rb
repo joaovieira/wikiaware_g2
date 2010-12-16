@@ -19,6 +19,26 @@ class StatsController < ApplicationController
 		@current_page.wiki.save
 		redirect_to :back
 	end
+	
+	def get_stats_list(page = @page, attrs = @attrs, list_size = @list_size)
+		act = @@ACT_IDX[attrs[:act]]
+		crit = @@CRIT_IDX[attrs[:crit]]
+
+		user_column = @@QUERY_PARAMS[:user_id][act]
+		value_column = @@QUERY_PARAMS[:value][act][crit]
+
+		list_tmp = get_query_model(act).find 	:all,
+							:select => get_query_select(act, crit),
+							:conditions => get_query_conditions(page, act),
+							:group => user_column,
+							:order => value_column + " DESC",
+							:limit => list_size
+
+		@list = Array.new(list_tmp.size) { |i| {:user_id => list_tmp[i].send(user_column),
+							:user => list_tmp[i].send(user_column[0..user_column.length - 4]),
+							:value => (value_format list_tmp[i].send(value_column)) } }
+		return @list
+	end
 
 private
 	@@QUERY_PARAMS = {	:user_id => ["author_id", "user_id", "user_id"],
@@ -49,26 +69,6 @@ private
 		end
 	end
 
-	def get_stats_list
-		act = @@ACT_IDX[@attrs[:act]]
-		crit = @@CRIT_IDX[@attrs[:crit]]
-
-		user_column = @@QUERY_PARAMS[:user_id][act]
-		value_column = @@QUERY_PARAMS[:value][act][crit]
-
-		list_tmp = get_query_model(act).find 	:all,
-							:conditions => get_query_conditions(act),
-							:select => get_query_select(act, crit),
-							:group => user_column,
-							:order => value_column + " DESC",
-							:limit => @list_size
-
-		@list = Array.new(list_tmp.size) { |i| {:user_id => list_tmp[i].send(user_column),
-							:user => list_tmp[i].send(user_column[0..user_column.length - 4]),
-							:value => (value_format list_tmp[i].send(value_column)) } }
-		return true
-	end
-
 	def update_user_preferences(act = nil, crit = nil)
 		if @attrs.nil?
 			@attrs = @@DEFAULT_ATTRS
@@ -79,10 +79,10 @@ private
 		@user_prefs.save
 	end
 
-	def get_query_conditions(act)
-		return [["page_id = ? AND version <> 1", @page.id],
-				["wiki_page_id = ?", @page.id],
-				{:wiki_page_id => @page.id, :version_id => @page.content.version}][act]
+	def get_query_conditions(page, act)
+		return [["page_id = ? AND version <> 1", page.id],
+				{:wiki_page_id => page.id},
+				["wiki_page_id = ? AND version_deleted IS NULL", page.id]][act]
 	end
 
 	def get_query_select(act, crit)
@@ -95,6 +95,7 @@ private
 	end
 
 	def value_format(value)
+		return value.to_i if value.class == String
 		return value if value.class != Time
 
 		if value.to_date == Date.today

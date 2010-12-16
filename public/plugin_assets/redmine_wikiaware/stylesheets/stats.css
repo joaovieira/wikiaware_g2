@@ -4,7 +4,7 @@
 	border:0;
 	margin:0;
 	padding:0;
-	right:0px;
+	right:5px;
 	display:block;
 	width:32px;
 	height:32px;
@@ -14,20 +14,28 @@
 
 #statsbox {
 	border-style: none;
+	border-color: #DDDDDD;
+	border-width: 1px;
 	float: right;
 	width: 0%;
 	height: 140px;
 	background-color:#507AAA;
 	position: fixed;
-	/*z-index: 9;*/
 	padding: 0;
 	margin: 0;
 	right: 0px;
 }
 
+#contentBox {
+	background-color: #FFFFFF;
+	position: absolute;
+	width: 0%;
+	top: 23px;
+	bottom: 23px;
+}
+
 #statstable {
-	/*display: none;*/
-	color: white;
+	color: #2A5690;
 	position: absolute;
 	padding-left: 32px;
 	margin-left: auto;
@@ -36,6 +44,14 @@
 	margin-bottom: 10px;
 	width: 75%;
 	text-align: left;
+}
+
+#statstable a {
+	color: #2A5690;
+}
+
+#statstable a:hover {
+	color: #C61A1A;
 }
 
 #statsbox ul {
@@ -62,22 +78,41 @@
 
 #statsbox li a {
 	display: block;
-	color: #fff;
+	color: #FFFFFF;
 	text-decoration: none;
 	font-weight: bold;
 	margin: 0;
 	padding: 4px 10px 4px 10px;
 }
 
-#statsbox li a.selectedTop, #main-menu li a.selected:hover {
-	background:#fff;
-	color:#555;
+#statsbox li a.selectedTop {
+	background: #FFFFFF;
+	color: #555555;
 }
 
-#statsbox li a.selectedBottom, #main-menu li a.selected:hover {
-	background:#fff;
-	color:#555;
+#statsbox li a.selectedBottom {
+	background: #FFFFFF;
+	color: #555555;
 }
 
+#statsbox li a.selectedTop:hover {
+	background: #FFFFFF;
+	color: #555555;
+}
 
-#statsbox li a:hover {background:#759FCF; color:#fff;}
+#statsbox li a.selectedBottom:hover {
+	background: #FFFFFF;
+	color: #555555;
+}
+
+#statsbox li a:hover {
+	background: #759FCF;
+}
+
+#statsbox form#size {
+	float: none;
+	display: none;
+	position: absolute;
+	right: 40%;
+	bottom: 7px;
+}

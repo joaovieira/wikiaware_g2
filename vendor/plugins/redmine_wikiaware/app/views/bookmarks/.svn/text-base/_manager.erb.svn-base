@@ -3,17 +3,35 @@
 
 <% for folder in @bookmarks_folders do %>
   <div class="bookmark_list_folder" id="bookmark_folder_<%= folder.id %>">
-    <%= folder.name %>
+    <%= image_tag("folder_open.png", :wikiaware => "public", :border => 0) %> <%=folder.name %>
+    <span class="bookmark_folder_delete">
+      <%= link_to_remote image_tag("delete.png", :wikiaware => "public", :border => 0),  :url => { :controller => "bookmarks", :action => "delete_folder", :folder_id => folder.id } %>
+    </span>
   </div>
-  <div class="bookmark_items">
+  <div class="bookmark_items" id="bookmark_items_folder_<%= folder.id %>">
+  <% if folder.bookmarks.empty? then %>
+    Arraste marcadores para aqui...
+  <% else %>
   <% for bookmark in folder.bookmarks do %>
-	  <div class="bookmark_list_item" id="bookmark_page_<%= bookmark.page_id %>">
-	    <%= link_to bookmark.name, bookmark.get_page_link %>
-	    <span class="bookmark_controls"> 
-	      <%= link_to_remote "Editar", :url => { :controller => "bookmarks", :action => "edit", :page_id => bookmark.page_id, :user_id => User.current } %> 
-	          <%= link_to "Eliminar", :controller => "bookmarks", :action => "delete", :page_id => bookmark.page_id, :user_id => User.current %>
-	    </span>
+	  <div class="bookmark_list_item" id="bookmark_list_item_<%= bookmark.id %>">
+	   <span class="bookmark_name" id="bookmark_name_<%= bookmark.id %>"> <%= bookmark.name %></span>
+	   <span class="bookmark_view">
+	     <%= link_to image_tag("view.gif", :plugin => "redmine_wikiaware", :border => 0), bookmark.get_page_link %></span>
+	   <span class="bookmark_edit"> 
+	      <%= link_to_remote image_tag("edit.png", :plugin => "redmine_wikiaware", :border => 0), :url => { :controller => "bookmarks", :action => "edit", :page_id => bookmark.page_id, :user_id => User.current } %></span>
+	   <span class="bookmark_delete">
+        <%= link_to_remote image_tag("delete.png", :wikiaware => "public", :border => 0), :url => { :controller => "bookmarks", :action => "delete", :page_id => bookmark.page_id, :user_id => User.current  } %>	     
+	   </span>  
 	  </div>
+	  <%= draggable_element "bookmark_name_#{bookmark.id}", :revert=>true %>  
+  <% end %>
   <% end %>
   </div>
+  <%= drop_receiving_element("bookmark_items_folder_#{folder.id}", 
+                              :accept => "bookmark_name",
+                              :with   => "'bookmark_id=' + (element.id.split('_').last()) + '&folder_id=#{folder.id}'",
+                              :url => { :controller => "bookmarks", :action =>"change_folder" }, 
+                              :hoverclass => "bookmark_items_hover") %>  
 <% end %>
+<p/>
+<div id="create_folder"> <%= render :partial => "bookmarks/create_folder" %> </div>

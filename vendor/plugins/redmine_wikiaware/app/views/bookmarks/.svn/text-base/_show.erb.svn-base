@@ -4,10 +4,9 @@
   <% @page_id = @page.id unless @page_id %> 
   
   <% if Bookmark.exists?(@page_id, User.current) %>
-    <%= link_to_remote "Editar", :url => { :controller => "bookmarks", :action => "edit", :page_id => @page_id, :user_id => User.current } %>
-    <%= link_to_remote "Eliminar", :url => { :controller => "bookmarks", :action => "delete", :page_id => @page_id, :user_id => User.current } %>
+     <%= link_to_remote image_tag("fav.png", :wikiaware => "public", :border => 0), :url => { :controller => "bookmarks", :action => "edit", :page_id => @page_id, :user_id => User.current } %>
   <% else %>
-    <%= link_to_remote image_tag("estrela.gif", :plugin => "redmine_wikiaware", :border => 0), :url => { :controller => "bookmarks", :action => "create", :page_id => @page_id, :user_id => User.current } %>
+     <%= link_to_remote image_tag("fav_off.png", :wikiaware => "public", :border => 0),  :url => { :controller => "bookmarks", :action => "create", :page_id => @page_id, :user_id => User.current } %>
   <% end %>
 
 <span id="edit_form">

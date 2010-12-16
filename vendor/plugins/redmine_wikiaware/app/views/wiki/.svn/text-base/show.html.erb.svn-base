@@ -1,5 +1,5 @@
 <div id="bookmarks_bar">
-<%= render :partial => 'bookmarks/toolbar' %> 
+<%= render :partial => 'bookmarks/toolbar', :locals => { :manager => false } %> 
 </div>
 <div class="contextual">
 <% if User.current.subscriptions.any? {|sub| sub.page_id == @page.id} %>

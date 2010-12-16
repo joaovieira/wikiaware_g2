@@ -1,7 +1,10 @@
 <%= stylesheet_link_tag("bookmarks", :plugin => "redmine_wikiaware") %>
-<% User.current.bookmarks.each do |bk| %>
+<% Bookmark.get_toolbar(User.current).each do |bk| %>
   <span class="bookmark_item" id="bookmark_item_<%= bk.id %>">
-  <%= link_to bk.name, bk.get_page_link %>
+    <%= link_to bk.name, bk.get_page_link %>
   </span>
+  <% if manager %>
+  <span class="bookmark_toolbar_remove" id="bookmark_toolbar_remove_<%= bk.id %>">
+      <%= link_to_remote image_tag("delete.png", :wikiaware => "public", :border => 0), :url => { :controller => "bookmarks", :action => "remove_from_toolbar", :bookmark_id => bk.id } %></span> 
+  <% end %>
 <% end %>
-

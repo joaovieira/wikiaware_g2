@@ -1,0 +1,2 @@
+page.replace_html :bookmarks_bar, :partial => 'bookmarks/toolbar', :locals => { :manager => true }
+

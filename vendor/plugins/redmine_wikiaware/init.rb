@@ -19,7 +19,8 @@ Redmine::Plugin.register :redmine_wikiaware do
   menu :application_menu, :notifications, {:controller=>'notifications', :action=>'index'}, :caption=>'Notifications'
 # grupo 5
 # grupo 3
-  menu :application_menu, :bookmarks, {:controller=>'bookmarks', :action=>'index'}, :caption=>'Bookmarks'
+  menu :top_menu, :bookmarks, {:controller=>'bookmarks', :action=>'index'}, :caption=>'Bookmarks', :if => Proc.new{ User.current.logged? }
+  menu :top_menu, :dashboard, {:controller=>'dashboard', :action=>'index'}, :caption=>'Dashboard', :if => Proc.new{ User.current.logged? }
 # grupo 3  
 end
 

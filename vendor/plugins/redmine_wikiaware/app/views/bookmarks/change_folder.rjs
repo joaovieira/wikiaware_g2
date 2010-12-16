@@ -1,0 +1,2 @@
+page.replace_html :bookmark_manager, :partial => 'bookmarks/manager'
+

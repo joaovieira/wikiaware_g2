@@ -30,8 +30,9 @@ module WikiawareSections
       
       o = ""
       o << stylesheet_link_tag("wikiaware", :plugin => "redmine_wikiaware")
-      o << "<div class=\"wikiaware_section\" id=\"wikiaware_section_#{section_id}\">#{title} <span class =\"wikiaware_section_rating\" id=\"wikiaware_section_rating_#{section_id}\">"
-#      o << link_to_remote("(avaliar...)", :url => { :url => "ratings/show_section", :plugin => "redmine_wikiaware"}, :locals => { :section_id => section_id, :page_id => page.id, :version_id => page.content.version }, :update => "wikiaware_section_rating_#{section_id}")
+      o << "<div class=\"wikiaware_section\" id=\"wikiaware_section_#{section_id}\">
+<a name='wikiaware_section_title_#{section_id}'> #{title} </a>
+<span class =\"wikiaware_section_rating\" id=\"wikiaware_section_rating_#{section_id}\">"
       o << render(:partial => "ratings/show_section", :plugin => "redmine_wikiaware", :locals => { :section_id => section_id, :page_id => page.id, :version_id => obj.version })
       o << "</span></div>"
       return o

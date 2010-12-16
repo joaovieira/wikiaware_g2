@@ -1,4 +1,1 @@
-page.replace_html :bookmarks, :partial => 'bookmarks/show'
-
-page.replace_html :bookmarks_message, 'Bookmark deleted'
-page.visual_effect :highlight, :bookmarks_message
+page.replace_html :bookmark_manager, :partial => 'bookmarks/manager'

@@ -1,15 +1,19 @@
-var i = 0;
+var iBox = 0;
+var iButton = 5;
 var selectedTop = null;
 var selectedBottom = null;
 var resized = false;
+var titled = false;
 
 function boxResizing() {
 	var box = document.getElementById('statsbox');
-	var boxDiv = document.getElementById('statstablediv');
+	var tableElements = document.getElementById('listingsTop').className;
 	
-	var newHeight = box.getElementsByTagName('tr').length * 35;
-	box.style.height = (newHeight + 85) + 'px';
-	boxDiv.style.height = newHeight + 'px';
+	var newHeight = tableElements * 35;
+	if(box.className == 'true') {
+		newHeight += 25;
+	}
+	box.style.height = (newHeight + 50) + 'px';
 }
 
 function slide() {
@@ -18,6 +22,12 @@ function slide() {
 	var table = document.getElementById('statstable');
 	var listTop = document.getElementById('listingsTop');
 	var listBottom = document.getElementById('listingsBottom');
+	var contentBox = document.getElementById('contentBox');
+	var adminForm;
+	
+	if(box.className == 'true') {
+		adminForm = document.getElementById('size');
+	}
 	
 	var t;
 	var w = window.innerWidth;
@@ -29,12 +39,24 @@ function slide() {
 			table.style.display = 'none';
 			listTop.style.display = 'none';
 			listBottom.style.display = 'none';
+			
+			if(box.className == 'true') {
+				if(adminForm.style.display != 'none') {
+					adminForm.style.display = 'none';
+				}
+			}
 		}
 		
-		if(i < v) {
-			++i;
-			button.style.right = i + 'px';
-			box.style.width = i + 'px';
+		if(iBox < v) {
+			box.style.borderStyle = 'solid';
+			
+			++iButton;
+			button.style.right = iButton + 'px';
+			
+			++iBox;
+			box.style.width = iBox + 'px';
+			contentBox.style.width = iBox + 'px';
+			
 			if(resized == false && table.getElementsByTagName('tr').length != 0) {
 				boxResizing();
 				resized = true;
@@ -43,9 +65,15 @@ function slide() {
 		}
 		else {
 			button.className = 'open';
+			
+			table.style.display = '';
 			listTop.style.display = ''
 			listBottom.style.display = '';
-			table.style.display = '';
+			
+			if(box.className == 'true') {
+				adminForm.style.display = 'block';
+			}
+			
 			var selectionTop = document.getElementById(selectedTop);
 			if(selectedTop != null) {
 				selectionTop.className = 'selectedTop';
@@ -55,6 +83,16 @@ function slide() {
 				selectionBottom.className = 'selectedBottom';
 			}
 			box.style.borderStyle = 'solid';
+			
+			if(!titled) {
+				document.getElementById('E').title = "Edited";
+				document.getElementById('R').title = "Read";
+				document.getElementById('C').title = "Commented";
+				document.getElementById('+').title = "More";
+				document.getElementById('+R').title = "Most Recently";
+				titled = true;
+			}
+			
 			return;
 		}
 	}
@@ -63,12 +101,19 @@ function slide() {
 			table.style.display = 'none';
 			listTop.style.display = 'none';
 			listBottom.style.display = 'none';
+			
+			if(box.className == 'true') {
+				if(adminForm.style.display != 'none') {
+					adminForm.style.display = 'none';
+				}
+			}
 		}
     	
-    	if(i >= 0) {
-    		--i;
-    		button.style.right = i + 'px';
-    		box.style.width = i + 'px';
+    	if(iBox > 0) {
+    		--iBox;
+    		--iButton;
+    		button.style.right = iButton + 'px';
+    		box.style.width = iBox + 'px';
     		t = setTimeout("slide()", 0);
     	}
     	else {

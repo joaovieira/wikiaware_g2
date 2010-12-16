@@ -1,35 +1,33 @@
 <%= stylesheet_link_tag "stats", :plugin => "redmine_wikiaware" %>
 <%= javascript_include_tag "stats", :plugin => "redmine_wikiaware" %>
-<%= link_to_remote image_tag("button.png", :plugin => "redmine_wikiaware", :id => "statsbutton", :class => "closed", :onclick => "slide()"), :url => {:controller => :stats, :action => :update_stats, :page => @page.id} %>
+<%= link_to_remote image_tag("button.png", :plugin => "redmine_wikiaware", :id => "statsbutton", :title => "Open Statistics", :class => "closed", :onclick => "slide()"), :url => {:controller => :stats, :action => :update_stats, :page => @page.id} %>
 <% @selected = StatsController.get_stats_prefs %>
 
-<div id="statsbox">
+<div id="statsbox" class="<%=User.current.admin%>">
 	
 	<!-- <%= @selected[:act] %> --> 
-	<ul id="listingsTop">
+	<ul id="listingsTop" class="<%= @page.wiki.stats_list_size %>">
 	<% ["E", "R", "C"].each do |act| %>
 	<li><%= link_to_remote act, {:url => {:controller => :stats, :action => :update_stats, :page => @page.id, :st_act => act}}, {:class => (act == @selected[:act] ? "selectedTop" : "_"), :id => act, :onclick => "changeSelectedTop('" + act + "')"} %></li>
 	<% end %>
 	</ul>
 	<br style="clear: both" />
 	
-	<div id="statstablediv">
+	<div id="contentBox">
 		<table id="statstable" hidden="true">
 		<%= render :partial => "stats/statstable" %>
 		</table>
-	</div>
-
-	<br />
-	<% if User.current.admin %>
-		<div>
-			<% form_tag :controller => :stats, :action => :edit_stats_list_size do %>
+		
+		<br />
+		<% if User.current.admin %>
+			<% form_tag({:controller => :stats, :action => :edit_stats_list_size}, :id => "size") do %>
 			<%= hidden_field_tag(:p, @page.id) %>
-			<%= text_field_tag (:new_list_size, @page.wiki.stats_list_size, :size => 3) %>
+			<%= select_tag(:new_list_size, options_for_select([['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5]], @page.wiki.stats_list_size)) %>
 			<%= submit_tag("Ok") %>
 			<% end %>
-		</div>
-	<% end %>
-
+		<% end %>
+	</div>
+	
 	<!-- <%= @selected[:crit] %> -->
 	<ul id="listingsBottom">
 	<% ["+", "+R"].each do |crit| %>
@@ -37,5 +35,4 @@
 	<% end %>
 	</ul>
 	<br style="clear: both" />
-	
 </div>
